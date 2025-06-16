@@ -17,30 +17,44 @@
       text-align: center;
       color: #ffda79;
       font-family: 'Orbitron', sans-serif;
+      font-size: 2.5rem;
+      margin-bottom: 30px;
     }
     .quest {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid #444;
-      padding: 20px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid #555;
+      padding: 25px;
       margin: 20px auto;
       max-width: 600px;
-      border-radius: 15px;
-      box-shadow: 0 0 15px rgba(255, 215, 0, 0.2);
+      border-radius: 20px;
+      box-shadow: 0 0 20px rgba(255, 215, 0, 0.15);
+      transition: transform 0.3s ease;
+    }
+    .quest:hover {
+      transform: scale(1.02);
     }
     button {
       margin-top: 10px;
-      padding: 10px 20px;
+      padding: 12px 25px;
       font-weight: bold;
-      border-radius: 8px;
-      background: linear-gradient(to right, #ffda79, #fff17c);
+      border-radius: 10px;
+      font-size: 1rem;
+      background: linear-gradient(to right, #ffe259, #ffa751);
       border: none;
       cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    button:hover {
+      background: linear-gradient(to right, #ffd700, #ff9900);
+      transform: scale(1.05);
     }
     .xp-counter {
       text-align: center;
-      font-size: 1.2rem;
-      margin-top: 20px;
-      color: #ffd700;
+      font-size: 2rem;
+      margin-top: 40px;
+      color: #ffe259;
+      font-family: 'Orbitron', sans-serif;
+      text-shadow: 0 0 10px #ffe259, 0 0 20px #ffa751;
     }
   </style>
 </head>
@@ -63,7 +77,7 @@
   </div>
 
   <div class="xp-counter">
-    Total XP: <span id="xp">0</span>
+    🌟 Total XP: <span id="xp">0</span>
   </div>
 
   <script>
@@ -98,7 +112,6 @@
     }
 
     function startQuest(type) {
-      // Step 1: Redirect if not started yet
       if (!questsCompleted[type]) {
         window.open(links[type], '_blank');
         document.getElementById(`${type}-btn`).textContent = "Verify";
@@ -107,21 +120,19 @@
     }
 
     function verifyQuest(type) {
-      // Step 2: User clicks verify
       if (!walletAddress) {
         alert("Please connect wallet first.");
         return;
       }
       if (!questsCompleted[type]) {
         questsCompleted[type] = true;
-        xp += 50;
+        xp += 50; // Higher XP per your request
         localStorage.setItem("questsCompleted", JSON.stringify(questsCompleted));
         localStorage.setItem("xp", xp);
         updateUI();
       }
     }
 
-    // Connect wallet on page load
     window.addEventListener("load", async () => {
       await connectWallet();
       updateUI();
