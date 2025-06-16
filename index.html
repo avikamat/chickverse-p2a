@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Chickverse | P2A Arena</title>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Space+Grotesk:wght@500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Space+Grotesk:wght@500&display=swap" rel="stylesheet"/>
   <style>
-    * {
+    / * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
@@ -128,6 +128,12 @@
       left: 0;
       z-index: 0;
     }
+* (same CSS you already had, no changes here for brevity) */
+    /* Just skip editing styles, everything else is same */
+    .btn[disabled] {
+      opacity: 0.6;
+      pointer-events: none;
+    }
   </style>
 </head>
 <body>
@@ -143,9 +149,11 @@
       <div class="card">
         <h2>🔗 Connect Your Wallet</h2>
         <p>Join the arena by connecting your wallet and verifying your NFT ownership. Get started in seconds.</p>
-        <button class="btn">Connect Wallet</button>
+        <button class="btn" id="connectWalletBtn">Connect Wallet</button>
+        <p id="walletStatus" style="margin-top: 15px; color: #ffda79;"></p>
       </div>
 
+      <!-- All other cards remain unchanged -->
       <div class="card">
         <h2>🔥 Complete Quests</h2>
         <p>Earn points by doing cool stuff – join Discord, hold NFTs, refer friends, and complete on-chain actions.</p>
@@ -186,26 +194,15 @@
   <script>
     particlesJS("particles-js", {
       particles: {
-        number: {
-          value: 80,
-          density: { enable: true, value_area: 800 }
-        },
+        number: { value: 80, density: { enable: true, value_area: 800 } },
         color: { value: "#ffd700" },
         shape: {
           type: "circle",
           stroke: { width: 0, color: "#000000" },
           polygon: { nb_sides: 5 }
         },
-        opacity: {
-          value: 0.5,
-          random: false,
-          anim: { enable: false }
-        },
-        size: {
-          value: 3,
-          random: true,
-          anim: { enable: false }
-        },
+        opacity: { value: 0.5 },
+        size: { value: 3, random: true },
         line_linked: {
           enable: true,
           distance: 150,
@@ -238,6 +235,35 @@
       retina_detect: true
     });
   </script>
+
+  <script>
+    const connectBtn = document.getElementById("connectWalletBtn");
+    const walletStatus = document.getElementById("walletStatus");
+
+    connectBtn.addEventListener("click", async () => {
+      if (!window.ethereum) {
+        walletStatus.textContent = "MetaMask is not installed!";
+        return;
+      }
+
+      try {
+        const accounts = await window.ethereum.request({ method: "eth_requestAccounts" });
+        const address = accounts[0];
+        walletStatus.textContent = `Connected: ${address.slice(0, 6)}...${address.slice(-4)}`;
+        connectBtn.disabled = true;
+
+        // Send to backend
+        await fetch("https://chickverse-backend--h2kamat.repl.co/connect", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ wallet: address })
+        });
+
+      } catch (err) {
+        console.error(err);
+        walletStatus.textContent = "Connection failed.";
+      }
+    });
+  </script>
 </body>
 </html>
-
