@@ -114,7 +114,7 @@
       }
       if (!questsCompleted[type]) {
         questsCompleted[type] = true;
-        xp += 10;
+        xp += 50;
         localStorage.setItem("questsCompleted", JSON.stringify(questsCompleted));
         localStorage.setItem("xp", xp);
         updateUI();
