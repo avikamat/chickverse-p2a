@@ -1,0 +1,243 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chickverse | P2A Arena</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Space+Grotesk:wght@500&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      background: linear-gradient(145deg, #0f0c29, #302b63, #24243e);
+      color: #fff;
+      font-family: 'Space Grotesk', sans-serif;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    header {
+      padding: 80px 30px 60px;
+      text-align: center;
+      background: url('https://images.unsplash.com/photo-1602526210532-5299f29d6f2a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1050&q=80') center/cover no-repeat;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
+    }
+    header::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: linear-gradient(to bottom right, rgba(0, 0, 0, 0.8), rgba(40, 40, 80, 0.6));
+      z-index: -1;
+    }
+    header h1 {
+      font-size: 4rem;
+      font-family: 'Orbitron', sans-serif;
+      color: #ffd700;
+      letter-spacing: 4px;
+      text-shadow: 0 0 15px #ffda79, 0 0 25px #ffda79;
+      animation: pulse 3s ease-in-out infinite;
+    }
+    header p {
+      font-size: 1.4rem;
+      margin-top: 20px;
+      color: #fff;
+      text-shadow: 0 0 8px #000;
+    }
+    @keyframes pulse {
+      0%, 100% { text-shadow: 0 0 15px #ffda79, 0 0 25px #ffda79; }
+      50% { text-shadow: 0 0 25px #fff17c, 0 0 35px #ffe45c; }
+    }
+    .main-wrapper {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      padding: 60px 30px 100px;
+      position: relative;
+      z-index: 1;
+    }
+    .container {
+      width: 100%;
+      max-width: 1400px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 40px;
+    }
+    .card {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid #333;
+      border-radius: 25px;
+      padding: 35px;
+      box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+      transition: all 0.3s ease-in-out;
+    }
+    .card:hover {
+      transform: translateY(-6px) scale(1.04);
+      box-shadow: 0 0 30px rgba(255, 215, 0, 0.7);
+    }
+    .card h2 {
+      color: #ffda79;
+      margin-bottom: 14px;
+      font-size: 1.9rem;
+    }
+    .card p {
+      color: #bbb;
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+    .btn {
+      background: linear-gradient(to right, #ffda79, #fff17c);
+      color: #000;
+      padding: 14px 28px;
+      border-radius: 12px;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+      margin-top: 20px;
+      font-size: 1rem;
+      box-shadow: 0 0 12px #ffe95e;
+      transition: all 0.3s ease;
+    }
+    .btn:hover {
+      background: linear-gradient(to right, #fff17c, #ffda79);
+      transform: scale(1.07);
+      box-shadow: 0 0 20px #fff899;
+    }
+    footer {
+      text-align: center;
+      padding: 30px 10px;
+      color: #999;
+      font-size: 0.95rem;
+      background: rgba(255, 255, 255, 0.05);
+      border-top: 1px solid #444;
+    }
+    /* Particle Background */
+    #particles-js {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      z-index: 0;
+    }
+  </style>
+</head>
+<body>
+  <div id="particles-js"></div>
+
+  <header>
+    <h1>Chickverse</h1>
+    <p>Welcome to the ultimate P2A Arena – Hatch, Compete, Earn</p>
+  </header>
+
+  <div class="main-wrapper">
+    <div class="container">
+      <div class="card">
+        <h2>🔗 Connect Your Wallet</h2>
+        <p>Join the arena by connecting your wallet and verifying your NFT ownership. Get started in seconds.</p>
+        <button class="btn">Connect Wallet</button>
+      </div>
+
+      <div class="card">
+        <h2>🔥 Complete Quests</h2>
+        <p>Earn points by doing cool stuff – join Discord, hold NFTs, refer friends, and complete on-chain actions.</p>
+        <button class="btn">View Quests</button>
+      </div>
+
+      <div class="card">
+        <h2>🎮 Play The Game – Eggverse Clash</h2>
+        <p>Jump into our competitive mini-game for NFT holders. Battle for the top spot and win token rewards!</p>
+        <button class="btn">Launch Game</button>
+      </div>
+
+      <div class="card">
+        <h2>🏆 Leaderboard</h2>
+        <p>Track your score and rise through the ranks. The top players earn exclusive tokens every week!</p>
+        <button class="btn">View Leaderboard</button>
+      </div>
+
+      <div class="card">
+        <h2>🚀 Referral Bonuses</h2>
+        <p>Invite your friends. Every successful referral boosts your points. Let your flock grow!</p>
+        <button class="btn">Get Referral Link</button>
+      </div>
+
+      <div class="card">
+        <h2>📢 Community Feed</h2>
+        <p>Stay updated with event announcements, rewards, and highlights from top Chickverse players.</p>
+        <button class="btn">Visit Feed</button>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    &copy; 2025 Chickverse. Join the movement.
+  </footer>
+
+  <!-- Particle.js library -->
+  <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+  <script>
+    particlesJS("particles-js", {
+      particles: {
+        number: {
+          value: 80,
+          density: { enable: true, value_area: 800 }
+        },
+        color: { value: "#ffd700" },
+        shape: {
+          type: "circle",
+          stroke: { width: 0, color: "#000000" },
+          polygon: { nb_sides: 5 }
+        },
+        opacity: {
+          value: 0.5,
+          random: false,
+          anim: { enable: false }
+        },
+        size: {
+          value: 3,
+          random: true,
+          anim: { enable: false }
+        },
+        line_linked: {
+          enable: true,
+          distance: 150,
+          color: "#ffd700",
+          opacity: 0.4,
+          width: 1
+        },
+        move: {
+          enable: true,
+          speed: 2,
+          direction: "none",
+          random: false,
+          straight: false,
+          out_mode: "out",
+          bounce: false
+        }
+      },
+      interactivity: {
+        detect_on: "canvas",
+        events: {
+          onhover: { enable: true, mode: "repulse" },
+          onclick: { enable: true, mode: "push" },
+          resize: true
+        },
+        modes: {
+          repulse: { distance: 100, duration: 0.4 },
+          push: { particles_nb: 4 }
+        }
+      },
+      retina_detect: true
+    });
+  </script>
+</body>
+</html>
