@@ -1,13 +1,16 @@
-<!-- Updated Chickverse Quests Page -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Chickverse | Quests</title>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Space+Grotesk:wght@500&display=swap" rel="stylesheet">
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
     body {
       background: linear-gradient(145deg, #0f0c29, #302b63, #24243e);
       color: #fff;
@@ -62,9 +65,9 @@
     }
     .container {
       width: 100%;
-      max-width: 1200px;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      max-width: 700px;
+      display: flex;
+      flex-direction: column;
       gap: 40px;
     }
     .card {
@@ -127,7 +130,6 @@
 
   <div class="main-wrapper">
     <div class="container">
-
       <div class="card">
         <h2>🐣 Join Discord</h2>
         <p>Become a part of the Chickverse community. Join our Discord and verify your wallet.</p>
@@ -135,35 +137,34 @@
       </div>
 
       <div class="card">
-        <h2>💛 Hold a Chickverse NFT</h2>
-        <p>Earn XP by holding any Chickverse NFT in your wallet.</p>
-        <button class="btn">Verify Now</button>
-      </div>
-
-      <div class="card">
-        <h2>🐤 Follow Chickverse on X</h2>
-        <p>Get updates and giveaways by following @chickverse on X.</p>
-        <button class="btn">Follow Now</button>
-      </div>
-
-      <div class="card">
-        <h2>🌈 Hold a Pixel Chicken</h2>
-        <p>Exclusive bonus XP for Pixel Chicken NFT holders!</p>
+        <h2>💛 Hold a Pixel Chicken NFT</h2>
+        <p>Earn bonus XP by holding at least 1 Pixel Chicken NFT in your connected wallet.</p>
         <button class="btn">Verify Holding</button>
       </div>
 
       <div class="card">
         <h2>🔍 Follow Pixel Chickens on X</h2>
-        <p>Get sneak peeks of drops and contests. Follow @pixelchickens now!</p>
+        <p>Stay in the loop with latest drops, contests and shoutouts. Follow @pixelchickens on X!</p>
+        <button class="btn">Follow Now</button>
+      </div>
+
+      <div class="card">
+        <h2>🐤 Hold a Chickverse NFT</h2>
+        <p>Hold any Chickverse NFT in your wallet and earn points.</p>
+        <button class="btn">Verify Holding</button>
+      </div>
+
+      <div class="card">
+        <h2>✨ Follow Chickverse on X</h2>
+        <p>Follow @chickverse on X to stay updated with all our big announcements.</p>
         <button class="btn">Follow Now</button>
       </div>
 
       <div class="card">
         <h2>📢 Refer Friends</h2>
-        <p>Earn points when friends join using your referral link and complete quests.</p>
-        <button class="btn">Get Your Link</button>
+        <p>Get referral points when your friends join and complete tasks through your invite link.</p>
+        <button class="btn">Get Link</button>
       </div>
-
     </div>
   </div>
 
@@ -172,3 +173,4 @@
   </footer>
 </body>
 </html>
+
