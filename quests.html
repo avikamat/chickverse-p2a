@@ -3,139 +3,148 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Chickverse | Quests</title>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Space+Grotesk:wght@500&display=swap" rel="stylesheet">
+  <title>Chickverse Quests</title>
   <style>
     body {
-      font-family: 'Space Grotesk', sans-serif;
-      background: linear-gradient(145deg, #0f0c29, #302b63, #24243e);
-      color: white;
-      margin: 0;
-      padding: 20px;
-    }
-    h1 {
+      font-family: 'Segoe UI', sans-serif;
+      background: #1a1a2e;
+      color: #ffffff;
       text-align: center;
-      color: #ffda79;
-      font-family: 'Orbitron', sans-serif;
-      font-size: 2.5rem;
+      padding: 40px;
+    }
+    .wallet-btn {
+      background: #ffcf3f;
+      color: #1a1a2e;
+      border: none;
+      padding: 15px 30px;
+      font-size: 18px;
+      border-radius: 12px;
+      cursor: pointer;
       margin-bottom: 30px;
     }
-    .quest {
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid #555;
-      padding: 25px;
-      margin: 20px auto;
-      max-width: 600px;
-      border-radius: 20px;
-      box-shadow: 0 0 20px rgba(255, 215, 0, 0.15);
-      transition: transform 0.3s ease;
-    }
-    .quest:hover {
-      transform: scale(1.02);
-    }
-    button {
-      margin-top: 10px;
-      padding: 12px 25px;
-      font-weight: bold;
-      border-radius: 10px;
-      font-size: 1rem;
-      background: linear-gradient(to right, #ffe259, #ffa751);
-      border: none;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-    button:hover {
-      background: linear-gradient(to right, #ffd700, #ff9900);
-      transform: scale(1.05);
+    .wallet-btn.connected {
+      background: #4caf50;
+      color: #fff;
     }
     .xp-counter {
-      text-align: center;
-      font-size: 2rem;
-      margin-top: 40px;
-      color: #ffe259;
-      font-family: 'Orbitron', sans-serif;
-      text-shadow: 0 0 10px #ffe259, 0 0 20px #ffa751;
+      font-size: 28px;
+      font-weight: bold;
+      color: #00ffd5;
+      margin: 20px 0;
+    }
+    .quest {
+      background: #282c3f;
+      margin: 20px auto;
+      padding: 20px;
+      border-radius: 12px;
+      width: 80%;
+      max-width: 500px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .quest a, .quest button {
+      background: #00ffd5;
+      color: #000;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    .quest button[disabled] {
+      background: #777;
+      color: #ccc;
     }
   </style>
 </head>
 <body>
-  <h1>Complete Social Quests</h1>
-  <div class="quest" id="discord-quest">
-    <h3>Join our Discord</h3>
-    <p>Connect with the community on Discord</p>
-    <button onclick="startQuest('discord')" id="discord-btn">Join Now</button>
-  </div>
-  <div class="quest" id="x1-quest">
-    <h3>Follow Chickverse on X</h3>
-    <p>Follow our official X (Twitter) account</p>
-    <button onclick="startQuest('x1')" id="x1-btn">Follow Now</button>
-  </div>
-  <div class="quest" id="x2-quest">
-    <h3>Follow Pixel Chickens on X</h3>
-    <p>Support the creators by following Pixel Chickens</p>
-    <button onclick="startQuest('x2')" id="x2-btn">Follow Now</button>
-  </div>
+  <h1>Chickverse Quests</h1>
+  <button class="wallet-btn">Connect Wallet</button>
+  <div class="xp-counter">XP: 0</div>
 
-  <div class="xp-counter">
-    🌟 Total XP: <span id="xp">0</span>
+  <div class="quest" data-key="discord">
+    <span>Join Discord</span>
+    <a href="https://discord.gg/AYwQKmHwea" target="_blank" class="action-btn">Join Now</a>
+  </div>
+  <div class="quest" data-key="pixelX">
+    <span>Follow Pixel Chickens on X</span>
+    <a href="https://x.com/Pixels_Chicken" target="_blank" class="action-btn">Follow Now</a>
+  </div>
+  <div class="quest" data-key="chickverseX">
+    <span>Follow Chickverse on X</span>
+    <a href="https://x.com/chickverse" target="_blank" class="action-btn">Follow Now</a>
   </div>
 
   <script>
-    const links = {
-      discord: "https://discord.gg/AYwQKmHwea",
-      x1: "https://x.com/chickverse",
-      x2: "https://x.com/Pixels_Chicken"
-    };
+    let currentWallet = null;
+    const walletBtn = document.querySelector('.wallet-btn');
+    const xpCounter = document.querySelector('.xp-counter');
 
-    let walletAddress = null;
-    let questsCompleted = JSON.parse(localStorage.getItem('questsCompleted')) || {};
-    let xp = parseInt(localStorage.getItem('xp')) || 0;
+    walletBtn.addEventListener('click', async () => {
+      if (typeof window.ethereum !== 'undefined') {
+        try {
+          const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+          currentWallet = accounts[0];
+          const shortWallet = currentWallet.slice(0, 6) + '...' + currentWallet.slice(-4);
+          walletBtn.textContent = 'Connected: ' + shortWallet;
+          walletBtn.classList.add('connected');
 
-    async function connectWallet() {
-      if (window.ethereum) {
-        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-        walletAddress = accounts[0];
-        console.log("Wallet connected:", walletAddress);
-      } else {
-        alert("MetaMask not detected");
-      }
-    }
+          await fetch('https://b84bfe9b-c8b6-44a1-9229-03f308958619-00-2ba1ztsppsdom.sisko.replit.dev/connect', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ wallet: currentWallet })
+          });
 
-    function updateUI() {
-      for (const key in questsCompleted) {
-        if (questsCompleted[key]) {
-          document.getElementById(`${key}-btn`).textContent = "Verified";
-          document.getElementById(`${key}-btn`).disabled = true;
+          loadUserData();
+        } catch (err) {
+          alert('Connection failed: ' + err.message);
         }
+      } else {
+        alert('MetaMask not installed');
       }
-      document.getElementById("xp").textContent = xp;
+    });
+
+    async function loadUserData() {
+      const res = await fetch(`https://b84bfe9b-c8b6-44a1-9229-03f308958619-00-2ba1ztsppsdom.sisko.replit.dev/user-data?wallet=${currentWallet}`);
+      const data = await res.json();
+      xpCounter.textContent = 'XP: ' + data.xp;
+      document.querySelectorAll('.quest').forEach(div => {
+        const questKey = div.getAttribute('data-key');
+        const btn = div.querySelector('.action-btn');
+        if (data.questsCompleted[questKey]) {
+          btn.textContent = 'Completed';
+          btn.disabled = true;
+        } else {
+          btn.textContent = 'Verify';
+          btn.classList.add('verify-btn');
+        }
+      });
     }
 
-    function startQuest(type) {
-      if (!questsCompleted[type]) {
-        window.open(links[type], '_blank');
-        document.getElementById(`${type}-btn`).textContent = "Verify";
-        document.getElementById(`${type}-btn`).onclick = () => verifyQuest(type);
-      }
-    }
-
-    function verifyQuest(type) {
-      if (!walletAddress) {
-        alert("Please connect wallet first.");
-        return;
-      }
-      if (!questsCompleted[type]) {
-        questsCompleted[type] = true;
-        xp += 50; // Higher XP per your request
-        localStorage.setItem("questsCompleted", JSON.stringify(questsCompleted));
-        localStorage.setItem("xp", xp);
-        updateUI();
-      }
-    }
-
-    window.addEventListener("load", async () => {
-      await connectWallet();
-      updateUI();
+    document.querySelectorAll('.quest .action-btn').forEach(btn => {
+      btn.addEventListener('click', function (e) {
+        if (btn.classList.contains('verify-btn')) {
+          const questDiv = btn.closest('.quest');
+          const questKey = questDiv.getAttribute('data-key');
+          fetch('https://b84bfe9b-c8b6-44a1-9229-03f308958619-00-2ba1ztsppsdom.sisko.replit.dev/complete-quest', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ wallet: currentWallet, questKey })
+          })
+            .then(res => res.json())
+            .then(data => {
+              xpCounter.textContent = 'XP: ' + data.xp;
+              btn.textContent = 'Completed';
+              btn.disabled = true;
+            });
+        } else {
+          setTimeout(() => {
+            btn.textContent = 'Verify';
+            btn.classList.add('verify-btn');
+          }, 3000);
+        }
+      });
     });
   </script>
 </body>
