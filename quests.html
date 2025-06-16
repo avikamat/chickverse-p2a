@@ -3,139 +3,129 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Chickverse Quests</title>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Space+Grotesk:wght@500&display=swap" rel="stylesheet" />
+  <title>Chickverse | Quests</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Space+Grotesk:wght@500&display=swap" rel="stylesheet">
   <style>
     body {
-      margin: 0;
-      padding: 0;
       font-family: 'Space Grotesk', sans-serif;
       background: linear-gradient(145deg, #0f0c29, #302b63, #24243e);
-      color: #fff;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      min-height: 100vh;
+      color: white;
+      margin: 0;
+      padding: 20px;
     }
     h1 {
-      font-family: 'Orbitron', sans-serif;
-      margin: 30px 0 10px;
-      font-size: 3rem;
-      text-shadow: 0 0 10px #ffd700;
-    }
-    .xp {
-      font-size: 2rem;
-      background: linear-gradient(to right, #ffda79, #fff17c);
-      color: #000;
-      padding: 14px 28px;
-      border-radius: 20px;
-      margin-bottom: 30px;
-      font-weight: bold;
-      box-shadow: 0 0 20px #ffd700;
-    }
-    .quests {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 30px;
-      max-width: 1000px;
-      width: 90%;
-    }
-    .card {
-      background: rgba(255, 255, 255, 0.08);
-      padding: 30px;
-      border-radius: 20px;
-      width: 280px;
-      box-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
-      transition: transform 0.3s ease;
-    }
-    .card:hover {
-      transform: scale(1.05);
-    }
-    .card h2 {
-      margin-bottom: 10px;
-      font-size: 1.5rem;
+      text-align: center;
       color: #ffda79;
+      font-family: 'Orbitron', sans-serif;
     }
-    .card button {
-      padding: 12px 20px;
-      background: linear-gradient(to right, #fff17c, #ffda79);
-      border: none;
-      border-radius: 10px;
-      color: #000;
+    .quest {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid #444;
+      padding: 20px;
+      margin: 20px auto;
+      max-width: 600px;
+      border-radius: 15px;
+      box-shadow: 0 0 15px rgba(255, 215, 0, 0.2);
+    }
+    button {
+      margin-top: 10px;
+      padding: 10px 20px;
       font-weight: bold;
-      font-size: 1rem;
+      border-radius: 8px;
+      background: linear-gradient(to right, #ffda79, #fff17c);
+      border: none;
       cursor: pointer;
-      transition: 0.3s;
     }
-    .card button:hover {
-      transform: scale(1.1);
-      box-shadow: 0 0 10px #ffe95e;
+    .xp-counter {
+      text-align: center;
+      font-size: 1.2rem;
+      margin-top: 20px;
+      color: #ffd700;
     }
   </style>
 </head>
 <body>
-  <h1>Chickverse Quests</h1>
-  <div class="xp" id="xp-display">XP: 0</div>
-  <div class="quests">
-    <div class="card">
-      <h2>Join our Discord</h2>
-      <button onclick="handleSocialQuest('discord', 'https://discord.gg/AYwQKmHwea')">Join Now</button>
-    </div>
-    <div class="card">
-      <h2>Follow Chickverse on X</h2>
-      <button onclick="handleSocialQuest('chickverse', 'https://x.com/chickverse')">Follow Now</button>
-    </div>
-    <div class="card">
-      <h2>Follow Pixel Chickens on X</h2>
-      <button onclick="handleSocialQuest('pixelchickens', 'https://x.com/Pixels_Chicken')">Follow Now</button>
-    </div>
+  <h1>Complete Social Quests</h1>
+  <div class="quest" id="discord-quest">
+    <h3>Join our Discord</h3>
+    <p>Connect with the community on Discord</p>
+    <button onclick="startQuest('discord')" id="discord-btn">Join Now</button>
+  </div>
+  <div class="quest" id="x1-quest">
+    <h3>Follow Chickverse on X</h3>
+    <p>Follow our official X (Twitter) account</p>
+    <button onclick="startQuest('x1')" id="x1-btn">Follow Now</button>
+  </div>
+  <div class="quest" id="x2-quest">
+    <h3>Follow Pixel Chickens on X</h3>
+    <p>Support the creators by following Pixel Chickens</p>
+    <button onclick="startQuest('x2')" id="x2-btn">Follow Now</button>
+  </div>
+
+  <div class="xp-counter">
+    Total XP: <span id="xp">0</span>
   </div>
 
   <script>
-    let wallet = null;
-    let completed = {};
-    let xp = 0;
+    const links = {
+      discord: "https://discord.gg/AYwQKmHwea",
+      x1: "https://x.com/chickverse",
+      x2: "https://x.com/Pixels_Chicken"
+    };
+
+    let walletAddress = null;
+    let questsCompleted = JSON.parse(localStorage.getItem('questsCompleted')) || {};
+    let xp = parseInt(localStorage.getItem('xp')) || 0;
 
     async function connectWallet() {
       if (window.ethereum) {
         const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-        wallet = accounts[0];
-      }
-    }
-
-    async function handleSocialQuest(type, url) {
-      await connectWallet();
-      if (!wallet) return alert("Wallet not connected");
-
-      if (!completed[type]) {
-        window.open(url, '_blank');
-        const btn = event.target;
-        btn.textContent = 'Verify';
-        btn.onclick = () => verifyQuest(type, btn);
-      }
-    }
-
-    async function verifyQuest(type, button) {
-      const response = await fetch('https://b84bfe9b-c8b6-44a1-9229-03f308958619-00-2ba1ztsppsdom.sisko.replit.dev/complete-quest', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ wallet, quest: type })
-      });
-      const data = await response.json();
-
-      if (data.success) {
-        completed[type] = true;
-        xp += data.xp;
-        document.getElementById('xp-display').textContent = `XP: ${xp}`;
-        button.textContent = 'Completed';
-        button.disabled = true;
+        walletAddress = accounts[0];
+        console.log("Wallet connected:", walletAddress);
       } else {
-        alert(data.message || 'Verification failed');
+        alert("MetaMask not detected");
       }
     }
 
-    window.onload = connectWallet;
+    function updateUI() {
+      for (const key in questsCompleted) {
+        if (questsCompleted[key]) {
+          document.getElementById(`${key}-btn`).textContent = "Verified";
+          document.getElementById(`${key}-btn`).disabled = true;
+        }
+      }
+      document.getElementById("xp").textContent = xp;
+    }
+
+    function startQuest(type) {
+      // Step 1: Redirect if not started yet
+      if (!questsCompleted[type]) {
+        window.open(links[type], '_blank');
+        document.getElementById(`${type}-btn`).textContent = "Verify";
+        document.getElementById(`${type}-btn`).onclick = () => verifyQuest(type);
+      }
+    }
+
+    function verifyQuest(type) {
+      // Step 2: User clicks verify
+      if (!walletAddress) {
+        alert("Please connect wallet first.");
+        return;
+      }
+      if (!questsCompleted[type]) {
+        questsCompleted[type] = true;
+        xp += 10;
+        localStorage.setItem("questsCompleted", JSON.stringify(questsCompleted));
+        localStorage.setItem("xp", xp);
+        updateUI();
+      }
+    }
+
+    // Connect wallet on page load
+    window.addEventListener("load", async () => {
+      await connectWallet();
+      updateUI();
+    });
   </script>
 </body>
 </html>
