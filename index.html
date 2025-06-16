@@ -243,6 +243,8 @@ document.querySelector('.btn').addEventListener('click', async () => {
     try {
       const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
       const walletAddress = accounts[0];
+console.log('MetaMask connected, wallet address:', walletAddress);
+
 
       // Send to backend
       const response = await fetch('https://chickverse-backend--h2kamat.repl.co/connect', {
