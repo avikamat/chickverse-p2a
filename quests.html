@@ -1,176 +1,132 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Chickverse | Quests</title>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Space+Grotesk:wght@500&display=swap" rel="stylesheet">
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
     body {
-      background: linear-gradient(145deg, #0f0c29, #302b63, #24243e);
-      color: #fff;
       font-family: 'Space Grotesk', sans-serif;
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-      overflow-x: hidden;
+      background: linear-gradient(145deg, #0f0c29, #302b63, #24243e);
+      color: white;
+      margin: 0;
+      padding: 20px;
     }
-    header {
-      padding: 80px 30px 60px;
+    h1 {
       text-align: center;
-      background: url('https://images.unsplash.com/photo-1602526210532-5299f29d6f2a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1050&q=80') center/cover no-repeat;
-      position: sticky;
-      top: 0;
-      z-index: 10;
-      box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
-    }
-    header::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: linear-gradient(to bottom right, rgba(0, 0, 0, 0.8), rgba(40, 40, 80, 0.6));
-      z-index: -1;
-    }
-    header h1 {
-      font-size: 4rem;
-      font-family: 'Orbitron', sans-serif;
-      color: #ffd700;
-      letter-spacing: 4px;
-      text-shadow: 0 0 15px #ffda79, 0 0 25px #ffda79;
-      animation: pulse 3s ease-in-out infinite;
-    }
-    header p {
-      font-size: 1.4rem;
-      margin-top: 20px;
-      color: #fff;
-      text-shadow: 0 0 8px #000;
-    }
-    @keyframes pulse {
-      0%, 100% { text-shadow: 0 0 15px #ffda79, 0 0 25px #ffda79; }
-      50% { text-shadow: 0 0 25px #fff17c, 0 0 35px #ffe45c; }
-    }
-    .main-wrapper {
-      flex: 1;
-      display: flex;
-      justify-content: center;
-      padding: 60px 30px 100px;
-      position: relative;
-      z-index: 1;
-    }
-    .container {
-      width: 100%;
-      max-width: 700px;
-      display: flex;
-      flex-direction: column;
-      gap: 40px;
-    }
-    .card {
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid #333;
-      border-radius: 25px;
-      padding: 30px;
-      box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
-      transition: all 0.3s ease-in-out;
-    }
-    .card:hover {
-      transform: translateY(-6px) scale(1.04);
-      box-shadow: 0 0 30px rgba(255, 215, 0, 0.7);
-    }
-    .card h2 {
       color: #ffda79;
-      margin-bottom: 14px;
-      font-size: 1.8rem;
+      font-family: 'Orbitron', sans-serif;
     }
-    .card p {
-      color: #bbb;
-      font-size: 1rem;
-      line-height: 1.6;
+    .quest {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid #444;
+      padding: 20px;
+      margin: 20px auto;
+      max-width: 600px;
+      border-radius: 15px;
+      box-shadow: 0 0 15px rgba(255, 215, 0, 0.2);
     }
-    .btn {
-      background: linear-gradient(to right, #ffda79, #fff17c);
-      color: #000;
-      padding: 12px 24px;
-      border-radius: 10px;
+    button {
+      margin-top: 10px;
+      padding: 10px 20px;
       font-weight: bold;
+      border-radius: 8px;
+      background: linear-gradient(to right, #ffda79, #fff17c);
       border: none;
       cursor: pointer;
-      margin-top: 20px;
-      font-size: 1rem;
-      box-shadow: 0 0 12px #ffe95e;
-      transition: all 0.3s ease;
-      text-decoration: none;
-      display: inline-block;
     }
-    .btn:hover {
-      background: linear-gradient(to right, #fff17c, #ffda79);
-      transform: scale(1.07);
-      box-shadow: 0 0 20px #fff899;
-    }
-    footer {
+    .xp-counter {
       text-align: center;
-      padding: 30px 10px;
-      color: #999;
-      font-size: 0.95rem;
-      background: rgba(255, 255, 255, 0.05);
-      border-top: 1px solid #444;
+      font-size: 1.2rem;
+      margin-top: 20px;
+      color: #ffd700;
     }
   </style>
 </head>
 <body>
-  <header>
-    <h1>Chickverse Quests</h1>
-    <p>Complete these quests and rise on the leaderboard!</p>
-  </header>
-
-  <div class="main-wrapper">
-    <div class="container">
-      <div class="card">
-        <h2>🐣 Join Discord</h2>
-        <p>Become a part of the Chickverse community. Join our Discord and verify your wallet.</p>
-        <button class="btn">Join Now</button>
-      </div>
-
-      <div class="card">
-        <h2>💛 Hold a Pixel Chicken NFT</h2>
-        <p>Earn bonus XP by holding at least 1 Pixel Chicken NFT in your connected wallet.</p>
-        <button class="btn">Verify Holding</button>
-      </div>
-
-      <div class="card">
-        <h2>🔍 Follow Pixel Chickens on X</h2>
-        <p>Stay in the loop with latest drops, contests and shoutouts. Follow @pixelchickens on X!</p>
-        <button class="btn">Follow Now</button>
-      </div>
-
-      <div class="card">
-        <h2>🐤 Hold a Chickverse NFT</h2>
-        <p>Hold any Chickverse NFT in your wallet and earn points.</p>
-        <button class="btn">Verify Holding</button>
-      </div>
-
-      <div class="card">
-        <h2>✨ Follow Chickverse on X</h2>
-        <p>Follow @chickverse on X to stay updated with all our big announcements.</p>
-        <button class="btn">Follow Now</button>
-      </div>
-
-      <div class="card">
-        <h2>📢 Refer Friends</h2>
-        <p>Get referral points when your friends join and complete tasks through your invite link.</p>
-        <a href="referral.html" class="btn">Get Referral Link</a>
-      </div>
-    </div>
+  <h1>Complete Social Quests</h1>
+  <div class="quest" id="discord-quest">
+    <h3>Join our Discord</h3>
+    <p>Connect with the community on Discord</p>
+    <button onclick="startQuest('discord')" id="discord-btn">Join Now</button>
+  </div>
+  <div class="quest" id="x1-quest">
+    <h3>Follow Chickverse on X</h3>
+    <p>Follow our official X (Twitter) account</p>
+    <button onclick="startQuest('x1')" id="x1-btn">Follow Now</button>
+  </div>
+  <div class="quest" id="x2-quest">
+    <h3>Follow Pixel Chickens on X</h3>
+    <p>Support the creators by following Pixel Chickens</p>
+    <button onclick="startQuest('x2')" id="x2-btn">Follow Now</button>
   </div>
 
-  <footer>
-    &copy; 2025 Chickverse. Earn rewards, unlock XP, and hatch greatness.
-  </footer>
+  <div class="xp-counter">
+    Total XP: <span id="xp">0</span>
+  </div>
+
+  <script>
+    const links = {
+      discord: "https://discord.gg/AYwQKmHwea",
+      x1: "https://x.com/chickverse",
+      x2: "https://x.com/Pixels_Chicken"
+    };
+
+    let walletAddress = null;
+    let questsCompleted = JSON.parse(localStorage.getItem('questsCompleted')) || {};
+    let xp = parseInt(localStorage.getItem('xp')) || 0;
+
+    async function connectWallet() {
+      if (window.ethereum) {
+        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+        walletAddress = accounts[0];
+        console.log("Wallet connected:", walletAddress);
+      } else {
+        alert("MetaMask not detected");
+      }
+    }
+
+    function updateUI() {
+      for (const key in questsCompleted) {
+        if (questsCompleted[key]) {
+          document.getElementById(`${key}-btn`).textContent = "Verified";
+          document.getElementById(`${key}-btn`).disabled = true;
+        }
+      }
+      document.getElementById("xp").textContent = xp;
+    }
+
+    function startQuest(type) {
+      // Step 1: Redirect if not started yet
+      if (!questsCompleted[type]) {
+        window.open(links[type], '_blank');
+        document.getElementById(`${type}-btn`).textContent = "Verify";
+        document.getElementById(`${type}-btn`).onclick = () => verifyQuest(type);
+      }
+    }
+
+    function verifyQuest(type) {
+      // Step 2: User clicks verify
+      if (!walletAddress) {
+        alert("Please connect wallet first.");
+        return;
+      }
+      if (!questsCompleted[type]) {
+        questsCompleted[type] = true;
+        xp += 10;
+        localStorage.setItem("questsCompleted", JSON.stringify(questsCompleted));
+        localStorage.setItem("xp", xp);
+        updateUI();
+      }
+    }
+
+    // Connect wallet on page load
+    window.addEventListener("load", async () => {
+      await connectWallet();
+      updateUI();
+    });
+  </script>
 </body>
 </html>
 
