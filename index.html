@@ -238,12 +238,15 @@
 
     <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
  <script>
-document.querySelector('.btn').addEventListener('click', async () => {
+const connectBtn = document.querySelector('.btn');
+
+connectBtn.addEventListener('click', async () => {
   if (typeof window.ethereum !== 'undefined') {
     try {
       const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
       const walletAddress = accounts[0];
 
+      // Send to backend
       const response = await fetch('https://b84bfe9b-c8b6-44a1-9229-03f308958619-00-2ba1ztsppsdom.sisko.replit.dev/connect', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -251,7 +254,16 @@ document.querySelector('.btn').addEventListener('click', async () => {
       });
 
       const result = await response.json();
-      alert(result.message);
+
+      // Format and update button
+      const shortAddress = walletAddress.slice(0, 6) + '...' + walletAddress.slice(-4);
+      connectBtn.textContent = `✅ Connected: ${shortAddress}`;
+      connectBtn.disabled = true;
+      connectBtn.style.background = 'rgba(255, 255, 255, 0.1)';
+      connectBtn.style.color = '#fff';
+      connectBtn.style.cursor = 'default';
+      connectBtn.style.boxShadow = 'none';
+
     } catch (err) {
       alert('Connection failed: ' + err.message);
     }
@@ -259,8 +271,8 @@ document.querySelector('.btn').addEventListener('click', async () => {
     alert('MetaMask is not installed');
   }
 });
-
 </script>
+
 
 
 </body>
