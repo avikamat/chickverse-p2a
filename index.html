@@ -237,86 +237,31 @@
   </script>
 
     <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
-  <script>
-    particlesJS("particles-js", {
-      particles: {
-        number: {
-          value: 80,
-          density: { enable: true, value_area: 800 }
-        },
-        color: { value: "#ffd700" },
-        shape: {
-          type: "circle",
-          stroke: { width: 0, color: "#000000" },
-          polygon: { nb_sides: 5 }
-        },
-        opacity: {
-          value: 0.5,
-          random: false,
-          anim: { enable: false }
-        },
-        size: {
-          value: 3,
-          random: true,
-          anim: { enable: false }
-        },
-        line_linked: {
-          enable: true,
-          distance: 150,
-          color: "#ffd700",
-          opacity: 0.4,
-          width: 1
-        },
-        move: {
-          enable: true,
-          speed: 2,
-          direction: "none",
-          random: false,
-          straight: false,
-          out_mode: "out",
-          bounce: false
-        }
-      },
-      interactivity: {
-        detect_on: "canvas",
-        events: {
-          onhover: { enable: true, mode: "repulse" },
-          onclick: { enable: true, mode: "push" },
-          resize: true
-        },
-        modes: {
-          repulse: { distance: 100, duration: 0.4 },
-          push: { particles_nb: 4 }
-        }
-      },
-      retina_detect: true
-    });
+ <script>
+document.querySelector('.btn').addEventListener('click', async () => {
+  if (typeof window.ethereum !== 'undefined') {
+    try {
+      const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+      const walletAddress = accounts[0];
 
-    // WALLET CONNECT LOGIC
-    document.querySelector('.btn').addEventListener('click', async () => {
-      if (typeof window.ethereum !== 'undefined') {
-        try {
-          const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-          const walletAddress = accounts[0];
+      // Send to backend
+      const response = await fetch('https://chickverse-backend--h2kamat.repl.co/connect', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ wallet: walletAddress })
+      });
 
-          const response = await fetch('https://chickverse-backend--h2kamat.repl.co/connect', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ wallet: walletAddress })
-          });
+      const result = await response.json();
+      alert(result.message);
+    } catch (err) {
+      alert('Connection failed: ' + err.message);
+    }
+  } else {
+    alert('MetaMask is not installed');
+  }
+});
+</script>
 
-          const result = await response.json();
-          alert(result.message);
-        } catch (err) {
-          alert('Connection failed: ' + err.message);
-        }
-      } else {
-        alert('MetaMask is not installed');
-      }
-    });
-  </script>
-</body>
-</html>
 
 </body>
 </html>
