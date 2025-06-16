@@ -18,6 +18,22 @@
       color: #ffda79;
       font-family: 'Orbitron', sans-serif;
     }
+    .wallet-btn {
+      display: block;
+      margin: 0 auto 20px;
+      padding: 12px 25px;
+      background: linear-gradient(to right, #ffda79, #fff17c);
+      border: none;
+      border-radius: 10px;
+      font-weight: bold;
+      font-size: 16px;
+      cursor: pointer;
+      color: #000;
+    }
+    .wallet-btn.connected {
+      background: #4caf50;
+      color: #fff;
+    }
     .quest {
       background: rgba(255, 255, 255, 0.05);
       border: 1px solid #444;
@@ -27,7 +43,7 @@
       border-radius: 15px;
       box-shadow: 0 0 15px rgba(255, 215, 0, 0.2);
     }
-    button {
+    button, .action-btn {
       margin-top: 10px;
       padding: 10px 20px;
       font-weight: bold;
@@ -35,10 +51,17 @@
       background: linear-gradient(to right, #ffda79, #fff17c);
       border: none;
       cursor: pointer;
+      color: black;
+      text-decoration: none;
+    }
+    .action-btn[disabled] {
+      background: #777;
+      color: #ccc;
+      cursor: not-allowed;
     }
     .xp-counter {
       text-align: center;
-      font-size: 1.2rem;
+      font-size: 24px;
       margin-top: 20px;
       color: #ffd700;
     }
@@ -46,20 +69,22 @@
 </head>
 <body>
   <h1>Complete Social Quests</h1>
-  <div class="quest" id="discord-quest">
+  <button class="wallet-btn" id="wallet-btn">Connect Wallet</button>
+
+  <div class="quest" data-key="discord">
     <h3>Join our Discord</h3>
     <p>Connect with the community on Discord</p>
-    <button onclick="startQuest('discord')" id="discord-btn">Join Now</button>
+    <a href="https://discord.gg/AYwQKmHwea" target="_blank" class="action-btn">Join Now</a>
   </div>
-  <div class="quest" id="x1-quest">
+  <div class="quest" data-key="chickverseX">
     <h3>Follow Chickverse on X</h3>
     <p>Follow our official X (Twitter) account</p>
-    <button onclick="startQuest('x1')" id="x1-btn">Follow Now</button>
+    <a href="https://x.com/chickverse" target="_blank" class="action-btn">Follow Now</a>
   </div>
-  <div class="quest" id="x2-quest">
+  <div class="quest" data-key="pixelX">
     <h3>Follow Pixel Chickens on X</h3>
     <p>Support the creators by following Pixel Chickens</p>
-    <button onclick="startQuest('x2')" id="x2-btn">Follow Now</button>
+    <a href="https://x.com/Pixels_Chicken" target="_blank" class="action-btn">Follow Now</a>
   </div>
 
   <div class="xp-counter">
@@ -67,64 +92,93 @@
   </div>
 
   <script>
-    const links = {
-      discord: "https://discord.gg/AYwQKmHwea",
-      x1: "https://x.com/chickverse",
-      x2: "https://x.com/Pixels_Chicken"
-    };
+    let currentWallet = null;
 
-    let walletAddress = null;
-    let questsCompleted = JSON.parse(localStorage.getItem('questsCompleted')) || {};
-    let xp = parseInt(localStorage.getItem('xp')) || 0;
+    const walletBtn = document.getElementById('wallet-btn');
+    const xpDisplay = document.getElementById('xp');
 
-    async function connectWallet() {
-      if (window.ethereum) {
-        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-        walletAddress = accounts[0];
-        console.log("Wallet connected:", walletAddress);
+    walletBtn.addEventListener('click', async () => {
+      if (typeof window.ethereum !== 'undefined') {
+        try {
+          const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+          currentWallet = accounts[0];
+          const shortWallet = currentWallet.slice(0, 6) + '...' + currentWallet.slice(-4);
+          walletBtn.textContent = 'Connected: ' + shortWallet;
+          walletBtn.classList.add('connected');
+
+          await fetch('https://b84bfe9b-c8b6-44a1-9229-03f308958619-00-2ba1ztsppsdom.sisko.replit.dev/connect', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ wallet: currentWallet })
+          });
+
+          loadUserData();
+        } catch (err) {
+          alert('Connection failed: ' + err.message);
+        }
       } else {
-        alert("MetaMask not detected");
+        alert('MetaMask not detected');
       }
+    });
+
+    async function loadUserData() {
+      const res = await fetch(`https://b84bfe9b-c8b6-44a1-9229-03f308958619-00-2ba1ztsppsdom.sisko.replit.dev/user-data?wallet=${currentWallet}`);
+      const data = await res.json();
+      xpDisplay.textContent = data.xp;
+      document.querySelectorAll('.quest').forEach(div => {
+        const questKey = div.getAttribute('data-key');
+        const btn = div.querySelector('.action-btn');
+        if (data.questsCompleted[questKey]) {
+          btn.textContent = 'Completed';
+          btn.setAttribute('disabled', true);
+        } else {
+          btn.textContent = btn.textContent.includes('Now') ? btn.textContent : 'Verify';
+          btn.classList.add('verify-btn');
+        }
+      });
     }
 
-    function updateUI() {
-      for (const key in questsCompleted) {
-        if (questsCompleted[key]) {
-          document.getElementById(`${key}-btn`).textContent = "Verified";
-          document.getElementById(`${key}-btn`).disabled = true;
+    document.querySelectorAll('.action-btn').forEach(btn => {
+      btn.addEventListener('click', function () {
+        if (btn.classList.contains('verify-btn')) {
+          const questDiv = btn.closest('.quest');
+          const questKey = questDiv.getAttribute('data-key');
+          fetch('https://b84bfe9b-c8b6-44a1-9229-03f308958619-00-2ba1ztsppsdom.sisko.replit.dev/complete-quest', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ wallet: currentWallet, questKey })
+          })
+            .then(res => res.json())
+            .then(data => {
+              xpDisplay.textContent = data.xp;
+              btn.textContent = 'Completed';
+              btn.setAttribute('disabled', true);
+            });
+        } else {
+          setTimeout(() => {
+            btn.textContent = 'Verify';
+            btn.classList.add('verify-btn');
+          }, 3000);
+        }
+      });
+    });
+
+    // Auto connect on page load
+    window.addEventListener('load', async () => {
+      if (window.ethereum) {
+        try {
+          const accounts = await window.ethereum.request({ method: 'eth_accounts' });
+          if (accounts.length > 0) {
+            currentWallet = accounts[0];
+            const shortWallet = currentWallet.slice(0, 6) + '...' + currentWallet.slice(-4);
+            walletBtn.textContent = 'Connected: ' + shortWallet;
+            walletBtn.classList.add('connected');
+            loadUserData();
+          }
+        } catch (err) {
+          console.log('Wallet auto-connection failed:', err);
         }
       }
-      document.getElementById("xp").textContent = xp;
-    }
-
-    function startQuest(type) {
-      // Step 1: Redirect if not started yet
-      if (!questsCompleted[type]) {
-        window.open(links[type], '_blank');
-        document.getElementById(`${type}-btn`).textContent = "Verify";
-        document.getElementById(`${type}-btn`).onclick = () => verifyQuest(type);
-      }
-    }
-
-    function verifyQuest(type) {
-      // Step 2: User clicks verify
-      if (!walletAddress) {
-        alert("Please connect wallet first.");
-        return;
-      }
-      if (!questsCompleted[type]) {
-        questsCompleted[type] = true;
-        xp += 50;
-        localStorage.setItem("questsCompleted", JSON.stringify(questsCompleted));
-        localStorage.setItem("xp", xp);
-        updateUI();
-      }
-    }
-
-    // Connect wallet on page load
-    window.addEventListener("load", async () => {
-      await connectWallet();
-      updateUI();
     });
   </script>
 </body>
