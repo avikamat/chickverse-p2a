@@ -1,99 +1,174 @@
-<!-- Save this as quests.html and open in your browser -->
+<!-- Updated Chickverse Quests Page -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Chickverse Quests</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Chickverse | Quests</title>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Space+Grotesk:wght@500&display=swap" rel="stylesheet">
   <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
-      background: #0e0b1c;
+      background: linear-gradient(145deg, #0f0c29, #302b63, #24243e);
+      color: #fff;
       font-family: 'Space Grotesk', sans-serif;
-      color: white;
-      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      overflow-x: hidden;
     }
-    h1 {
-      font-family: 'Orbitron', sans-serif;
-      font-size: 3rem;
-      color: #ffd700;
+    header {
+      padding: 80px 30px 60px;
       text-align: center;
-      margin-bottom: 20px;
+      background: url('https://images.unsplash.com/photo-1602526210532-5299f29d6f2a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1050&q=80') center/cover no-repeat;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
     }
-    .quest-list {
+    header::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: linear-gradient(to bottom right, rgba(0, 0, 0, 0.8), rgba(40, 40, 80, 0.6));
+      z-index: -1;
+    }
+    header h1 {
+      font-size: 4rem;
+      font-family: 'Orbitron', sans-serif;
+      color: #ffd700;
+      letter-spacing: 4px;
+      text-shadow: 0 0 15px #ffda79, 0 0 25px #ffda79;
+      animation: pulse 3s ease-in-out infinite;
+    }
+    header p {
+      font-size: 1.4rem;
+      margin-top: 20px;
+      color: #fff;
+      text-shadow: 0 0 8px #000;
+    }
+    @keyframes pulse {
+      0%, 100% { text-shadow: 0 0 15px #ffda79, 0 0 25px #ffda79; }
+      50% { text-shadow: 0 0 25px #fff17c, 0 0 35px #ffe45c; }
+    }
+    .main-wrapper {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      padding: 60px 30px 100px;
+      position: relative;
+      z-index: 1;
+    }
+    .container {
+      width: 100%;
+      max-width: 1200px;
       display: grid;
-      grid-template-columns: 1fr;
-      gap: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 40px;
     }
-    .quest {
+    .card {
       background: rgba(255, 255, 255, 0.06);
-      padding: 25px;
-      border-radius: 18px;
       border: 1px solid #333;
-      box-shadow: 0 0 12px rgba(255, 215, 0, 0.2);
-      transition: 0.3s;
+      border-radius: 25px;
+      padding: 30px;
+      box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+      transition: all 0.3s ease-in-out;
     }
-    .quest:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 0 18px rgba(255, 215, 0, 0.4);
+    .card:hover {
+      transform: translateY(-6px) scale(1.04);
+      box-shadow: 0 0 30px rgba(255, 215, 0, 0.7);
     }
-    .quest h2 {
-      font-size: 1.5rem;
-      color: #fff17c;
-      margin-bottom: 10px;
+    .card h2 {
+      color: #ffda79;
+      margin-bottom: 14px;
+      font-size: 1.8rem;
     }
-    .quest p {
+    .card p {
+      color: #bbb;
       font-size: 1rem;
-      color: #ccc;
-      margin-bottom: 12px;
+      line-height: 1.6;
     }
     .btn {
       background: linear-gradient(to right, #ffda79, #fff17c);
-      color: black;
-      padding: 10px 20px;
-      border: none;
+      color: #000;
+      padding: 12px 24px;
       border-radius: 10px;
-      cursor: pointer;
       font-weight: bold;
+      border: none;
+      cursor: pointer;
+      margin-top: 20px;
+      font-size: 1rem;
+      box-shadow: 0 0 12px #ffe95e;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-block;
     }
     .btn:hover {
-      box-shadow: 0 0 10px #ffd700;
-      transform: scale(1.05);
+      background: linear-gradient(to right, #fff17c, #ffda79);
+      transform: scale(1.07);
+      box-shadow: 0 0 20px #fff899;
+    }
+    footer {
+      text-align: center;
+      padding: 30px 10px;
+      color: #999;
+      font-size: 0.95rem;
+      background: rgba(255, 255, 255, 0.05);
+      border-top: 1px solid #444;
     }
   </style>
 </head>
 <body>
-  <h1>🔥 Chickverse Quests</h1>
-  <div class="quest-list">
-    <div class="quest">
-      <h2>✅ Join Discord</h2>
-      <p>Earn 50 points by joining the Chickverse Discord community.</p>
-      <button class="btn">Join Now</button>
-    </div>
+  <header>
+    <h1>Chickverse Quests</h1>
+    <p>Complete these quests and rise on the leaderboard!</p>
+  </header>
 
-    <div class="quest">
-      <h2>🐣 Hold a Chickverse NFT</h2>
-      <p>Connect your wallet and verify NFT ownership to earn 100 points.</p>
-      <button class="btn">Verify Wallet</button>
-    </div>
+  <div class="main-wrapper">
+    <div class="container">
 
-    <div class="quest">
-      <h2>💬 Refer a Friend</h2>
-      <p>Invite a friend to Chickverse and earn 75 points when they join.</p>
-      <button class="btn">Get Referral Link</button>
-    </div>
+      <div class="card">
+        <h2>🐣 Join Discord</h2>
+        <p>Become a part of the Chickverse community. Join our Discord and verify your wallet.</p>
+        <button class="btn">Join Now</button>
+      </div>
 
-    <div class="quest">
-      <h2>🪙 Mint a Chickverse NFT</h2>
-      <p>Mint a Chickverse NFT and get 200 points instantly.</p>
-      <button class="btn">Mint Now</button>
-    </div>
+      <div class="card">
+        <h2>💛 Hold a Chickverse NFT</h2>
+        <p>Earn XP by holding any Chickverse NFT in your wallet.</p>
+        <button class="btn">Verify Now</button>
+      </div>
 
-    <div class="quest">
-      <h2>🐤 Follow Chickverse on X</h2>
-      <p>Earn 30 points by following Chickverse on X (formerly Twitter).</p>
-      <button class="btn">Follow Now</button>
+      <div class="card">
+        <h2>🐤 Follow Chickverse on X</h2>
+        <p>Get updates and giveaways by following @chickverse on X.</p>
+        <button class="btn">Follow Now</button>
+      </div>
+
+      <div class="card">
+        <h2>🌈 Hold a Pixel Chicken</h2>
+        <p>Exclusive bonus XP for Pixel Chicken NFT holders!</p>
+        <button class="btn">Verify Holding</button>
+      </div>
+
+      <div class="card">
+        <h2>🔍 Follow Pixel Chickens on X</h2>
+        <p>Get sneak peeks of drops and contests. Follow @pixelchickens now!</p>
+        <button class="btn">Follow Now</button>
+      </div>
+
+      <div class="card">
+        <h2>📢 Refer Friends</h2>
+        <p>Earn points when friends join using your referral link and complete quests.</p>
+        <button class="btn">Get Your Link</button>
+      </div>
+
     </div>
   </div>
+
+  <footer>
+    &copy; 2025 Chickverse. Earn rewards, unlock XP, and hatch greatness.
+  </footer>
 </body>
 </html>
