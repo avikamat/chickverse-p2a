@@ -103,6 +103,7 @@
   </div>
 
   <script>
+    const backend = 'https://b84bfe9b-c8b6-44a1-9229-03f308958619-00-2ba1ztsppsdom.sisko.replit.dev';
     let currentWallet = null;
 
     const walletBtn = document.getElementById('wallet-btn');
@@ -117,7 +118,7 @@
           walletBtn.textContent = 'Connected: ' + shortWallet;
           walletBtn.classList.add('connected');
 
-          await fetch('/connect', {
+          await fetch(`${backend}/connect`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ wallet: currentWallet })
@@ -133,95 +134,66 @@
     });
 
     async function loadUserData() {
-      const res = await fetch(`/user-data?wallet=${currentWallet}`);
+      const res = await fetch(`${backend}/user-data?wallet=${currentWallet}`);
       const data = await res.json();
       xpDisplay.textContent = data.xp;
       document.querySelectorAll('.quest').forEach(div => {
         const questKey = div.getAttribute('data-key');
-        const btn = div.querySelector('.action-btn');
+        const btn = div.querySelector('.action-btn, .verify-btn');
         if (data.questsCompleted[questKey]) {
           btn.textContent = 'Completed';
           btn.setAttribute('disabled', true);
         } else {
-          btn.textContent = btn.textContent.includes('Now') ? btn.textContent : 'Verify';
-          btn.classList.add('verify-btn');
+          if (btn.tagName === 'BUTTON') {
+            btn.textContent = 'Verify';
+            btn.classList.add('verify-btn');
+          }
         }
       });
     }
 
-    document.querySelectorAll('.action-btn').forEach(btn => {
-     btn.addEventListener('click', function () {
-  const questDiv = btn.closest('.quest');
-  const questKey = questDiv.getAttribute('data-key');
-
-  if (!currentWallet) {
-    alert("Please connect wallet first.");
-    return;
-  }
-
-  if (btn.classList.contains('verify-btn')) {
-    const endpoint = questKey.includes('NFT') ? '/verify-nft' : '/complete-quest';
-
-    fetch(endpoint, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ wallet: currentWallet, questKey })
-    })
-    .then(res => res.json())
-    .then(data => {
-      if (data.success) {
-        xpDisplay.textContent = data.xp;
-        btn.textContent = 'Completed';
-        btn.setAttribute('disabled', true);
-      } else {
-        alert(data.message || 'Verification failed');
-      }
-    });
-  } else {
-    // For social quests, mark as complete after short delay
-    setTimeout(() => {
-      fetch('/complete-quest', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ wallet: currentWallet, questKey })
-      })
-      .then(res => res.json())
-      .then(data => {
-        if (data.success) {
-          xpDisplay.textContent = data.xp;
-          btn.textContent = 'Completed';
-          btn.setAttribute('disabled', true);
-        }
-      });
-    }, 3000);
-  }
-});
-
+    document.querySelectorAll('.action-btn, .verify-btn').forEach(btn => {
+      btn.addEventListener('click', function () {
         const questDiv = btn.closest('.quest');
         const questKey = questDiv.getAttribute('data-key');
 
+        if (!currentWallet) {
+          alert("Please connect wallet first.");
+          return;
+        }
+
         if (btn.classList.contains('verify-btn')) {
           const endpoint = questKey.includes('NFT') ? '/verify-nft' : '/complete-quest';
-
-          fetch(endpoint, {
+          fetch(`${backend}${endpoint}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ wallet: currentWallet, questKey })
           })
+          .then(res => res.json())
+          .then(data => {
+            if (data.success) {
+              xpDisplay.textContent = data.xp;
+              btn.textContent = 'Completed';
+              btn.setAttribute('disabled', true);
+            } else {
+              alert(data.message || 'Verification failed');
+            }
+          });
+        } else {
+          setTimeout(() => {
+            fetch(`${backend}/complete-quest`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ wallet: currentWallet, questKey })
+            })
             .then(res => res.json())
             .then(data => {
-              if (data.success) {
+              if (data.xp !== undefined) {
                 xpDisplay.textContent = data.xp;
                 btn.textContent = 'Completed';
                 btn.setAttribute('disabled', true);
-              } else {
-                alert(data.message || 'Verification failed');
               }
             });
-        } else {
-          setTimeout(() => {
-            btn.textContent = 'Verify';
-            btn.classList.add('verify-btn');
           }, 3000);
         }
       });
@@ -236,14 +208,18 @@
             const shortWallet = currentWallet.slice(0, 6) + '...' + currentWallet.slice(-4);
             walletBtn.textContent = 'Connected: ' + shortWallet;
             walletBtn.classList.add('connected');
+            await fetch(`${backend}/connect`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ wallet: currentWallet })
+            });
             loadUserData();
           }
         } catch (err) {
-          console.log('Wallet auto-connection failed:', err);
+          console.log('Auto-connect failed:', err);
         }
       }
     });
   </script>
 </body>
 </html>
-
