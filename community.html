@@ -6,82 +6,108 @@
   <title>Chickverse | Roadmap</title>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Space+Grotesk:wght@500&display=swap" rel="stylesheet">
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
       padding: 0;
       font-family: 'Space Grotesk', sans-serif;
-      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+      background: radial-gradient(circle at top left, #0f0c29, #302b63, #24243e);
       color: #ffffff;
       overflow-x: hidden;
     }
 
     header {
       text-align: center;
-      padding: 100px 20px 60px;
-      background: radial-gradient(circle, rgba(255,215,0,0.1), transparent);
+      padding: 120px 20px 80px;
+      background: linear-gradient(145deg, #ffcc00 10%, #0f0c29 90%);
+      clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%);
+      box-shadow: 0 0 60px #ffdd0077 inset;
     }
 
     header h1 {
       font-family: 'Orbitron', sans-serif;
-      font-size: 4rem;
-      color: #ffd700;
-      text-shadow: 0 0 20px #ffd70044;
+      font-size: 4.5rem;
+      color: #0f0c29;
+      text-shadow: 2px 2px 30px #ffd700aa;
       margin-bottom: 20px;
     }
 
     header p {
-      font-size: 1.2rem;
-      color: #ccc;
+      font-size: 1.4rem;
+      color: #111;
+      font-weight: bold;
     }
 
     .roadmap-container {
-      max-width: 1200px;
+      max-width: 1300px;
       margin: auto;
-      padding: 50px 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 60px;
+      padding: 60px 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 40px;
     }
 
     .roadmap-card {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 215, 0, 0.2);
+      background: rgba(255, 255, 255, 0.06);
+      border: 2px solid #ffda79;
+      border-radius: 24px;
       padding: 30px;
-      border-radius: 20px;
-      box-shadow: 0 0 25px rgba(255, 215, 0, 0.15);
-      transition: transform 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 0 35px rgba(255, 215, 0, 0.25);
+      transition: all 0.4s ease-in-out;
+    }
+
+    .roadmap-card::before {
+      content: "";
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(60deg, #ffda79 0%, #fff17c 100%);
+      opacity: 0.05;
+      transform: rotate(25deg);
+      z-index: 0;
     }
 
     .roadmap-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 0 35px rgba(255, 215, 0, 0.35);
+      transform: translateY(-10px) scale(1.02);
+      box-shadow: 0 0 45px rgba(255, 215, 0, 0.5);
     }
 
     .roadmap-card h2 {
+      position: relative;
+      z-index: 1;
       color: #fff17c;
-      font-size: 2rem;
-      margin-bottom: 10px;
+      font-size: 2.2rem;
+      margin-bottom: 15px;
+      text-shadow: 0 0 8px #ffda79;
     }
 
     .roadmap-card p {
-      color: #ddd;
-      font-size: 1rem;
+      position: relative;
+      z-index: 1;
+      color: #ccc;
+      font-size: 1.05rem;
+      line-height: 1.6;
     }
 
     .neon-line {
-      width: 100%;
-      height: 2px;
-      background: linear-gradient(to right, #ffd700, transparent);
-      box-shadow: 0 0 20px #ffd70055;
-      margin: 40px 0;
+      display: none;
     }
 
     footer {
-      padding: 40px 20px;
+      padding: 60px 20px;
       text-align: center;
       background: #0e0b1c;
-      font-size: 0.9rem;
+      font-size: 1rem;
       color: #999;
+      border-top: 2px solid #302b63;
+      box-shadow: 0 -10px 50px #00000033 inset;
     }
   </style>
 </head>
@@ -97,21 +123,15 @@
       <p>Launch of the Pixel Chicken NFT collection. Building the Chickverse community through Discord, X (Twitter), and initial giveaways.</p>
     </div>
 
-    <div class="neon-line"></div>
-
     <div class="roadmap-card">
       <h2>⚒️ Phase 2: Arena Quests</h2>
       <p>Release of the questing platform where users can complete tasks, verify NFTs, and earn XP. Leaderboards go live.</p>
     </div>
 
-    <div class="neon-line"></div>
-
     <div class="roadmap-card">
       <h2>🎁 Phase 3: Rewards & Drops</h2>
       <p>Launch of reward claiming system. Top players earn exclusive NFTs and XP bonuses. Special airdrops for active participants.</p>
     </div>
-
-    <div class="neon-line"></div>
 
     <div class="roadmap-card">
       <h2>🌐 Phase 4: The Metaverse Awaits</h2>
