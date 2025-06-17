@@ -150,7 +150,53 @@
     }
 
     document.querySelectorAll('.action-btn').forEach(btn => {
-      btn.addEventListener('click', function () {
+     btn.addEventListener('click', function () {
+  const questDiv = btn.closest('.quest');
+  const questKey = questDiv.getAttribute('data-key');
+
+  if (!currentWallet) {
+    alert("Please connect wallet first.");
+    return;
+  }
+
+  if (btn.classList.contains('verify-btn')) {
+    const endpoint = questKey.includes('NFT') ? '/verify-nft' : '/complete-quest';
+
+    fetch(endpoint, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ wallet: currentWallet, questKey })
+    })
+    .then(res => res.json())
+    .then(data => {
+      if (data.success) {
+        xpDisplay.textContent = data.xp;
+        btn.textContent = 'Completed';
+        btn.setAttribute('disabled', true);
+      } else {
+        alert(data.message || 'Verification failed');
+      }
+    });
+  } else {
+    // For social quests, mark as complete after short delay
+    setTimeout(() => {
+      fetch('/complete-quest', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ wallet: currentWallet, questKey })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          xpDisplay.textContent = data.xp;
+          btn.textContent = 'Completed';
+          btn.setAttribute('disabled', true);
+        }
+      });
+    }, 3000);
+  }
+});
+
         const questDiv = btn.closest('.quest');
         const questKey = questDiv.getAttribute('data-key');
 
