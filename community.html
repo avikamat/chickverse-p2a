@@ -1,103 +1,140 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Chickverse | Community Feed</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Chickverse | Roadmap</title>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Space+Grotesk:wght@500&display=swap" rel="stylesheet">
   <style>
-    * {
+    body {
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
-    }
-    body {
-      background: linear-gradient(145deg, #0f0c29, #302b63, #24243e);
-      color: #fff;
       font-family: 'Space Grotesk', sans-serif;
-      padding: 60px 20px;
+      background: linear-gradient(145deg, #0f0c29, #302b63, #24243e);
+      color: white;
     }
-    h1 {
+
+    header {
       text-align: center;
-      font-size: 3.5rem;
+      padding: 60px 20px;
+      background: rgba(255, 215, 0, 0.05);
+      border-bottom: 2px solid #333;
+    }
+
+    header h1 {
       font-family: 'Orbitron', sans-serif;
+      font-size: 3.2rem;
       color: #ffd700;
-      text-shadow: 0 0 12px #ffda79, 0 0 24px #ffe85d;
-      margin-bottom: 40px;
-    }
-    .feed {
-      max-width: 1000px;
-      margin: 0 auto;
-      display: flex;
-      flex-direction: column;
-      gap: 30px;
-    }
-    .post {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid #444;
-      border-radius: 18px;
-      padding: 25px;
-      box-shadow: 0 0 18px rgba(255, 215, 0, 0.2);
-    }
-    .post h2 {
-      color: #ffda79;
       margin-bottom: 10px;
-      font-size: 1.6rem;
     }
-    .post p {
-      font-size: 1rem;
-      line-height: 1.6;
+
+    .section {
+      max-width: 1000px;
+      margin: 50px auto;
+      padding: 0 20px;
+    }
+
+    .roadmap-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+
+    .phase {
+      background: rgba(255, 255, 255, 0.05);
+      border-left: 4px solid #ffd700;
+      padding: 20px 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(255, 215, 0, 0.15);
+    }
+
+    .phase h2 {
+      color: #ffda79;
+      font-size: 1.5rem;
+      margin-bottom: 10px;
+    }
+
+    .phase ul {
+      padding-left: 20px;
+      list-style-type: "✅ ";
       color: #ccc;
     }
-    .tag {
-      display: inline-block;
-      background: #ffda79;
-      color: #000;
-      font-size: 0.8rem;
-      padding: 5px 10px;
-      border-radius: 20px;
-      margin-right: 10px;
+
+    .phase ul li {
       margin-bottom: 10px;
     }
+
     footer {
+      padding: 40px 20px;
       text-align: center;
-      margin-top: 60px;
-      padding: 20px;
-      font-size: 0.9rem;
       color: #888;
+      font-size: 0.9rem;
+      background: #0e0b1c;
+      margin-top: 80px;
     }
   </style>
 </head>
 <body>
-  <h1>📢 Community Feed</h1>
-  <div class="feed">
-    <div class="post">
-      <div class="tag">Announcement</div>
-      <h2>Season 1 Leaderboard Ends June 30</h2>
-      <p>The first season of Chickverse is wrapping up soon! Top 50 players will win exclusive NFTs. Keep completing quests and inviting friends!</p>
-    </div>
+  <header>
+    <h1>🛣 Chickverse Roadmap</h1>
+    <p>Here’s what we’ve done and where we’re going 🚀</p>
+  </header>
 
-    <div class="post">
-      <div class="tag">Event</div>
-      <h2>🔥 Double XP Weekend</h2>
-      <p>From Friday to Sunday, all quests will earn double XP! Perfect chance to boost your score and climb the leaderboard.</p>
-    </div>
+  <div class="section">
+    <div class="roadmap-grid">
 
-    <div class="post">
-      <div class="tag">Update</div>
-      <h2>Chickverse Mobile App Coming Soon</h2>
-      <p>We’re building a full mobile experience so you can track your progress and claim rewards on the go. Launching this July!</p>
-    </div>
+      <div class="phase">
+        <h2>✅ Phase 1: Quest Engine (Complete)</h2>
+        <ul>
+          <li>Wallet login & tracking</li>
+          <li>Social + NFT quests</li>
+          <li>Referral XP</li>
+          <li>Leaderboard</li>
+          <li>Rewards page</li>
+        </ul>
+      </div>
 
-    <div class="post">
-      <div class="tag">Feature Drop</div>
-      <h2>New Mini-Games in Development</h2>
-      <p>We’re cooking up new on-chain mini-games for Chickverse. Expect fun mechanics, more XP opportunities, and unique leaderboard twists!</p>
+      <div class="phase">
+        <h2>🔜 Phase 2: XP Boosts (Coming Soon)</h2>
+        <ul>
+          <li>Pay to earn extra XP</li>
+          <li>Rise in leaderboard faster</li>
+          <li>Razorpay & crypto accepted</li>
+        </ul>
+      </div>
+
+      <div class="phase">
+        <h2>📦 Phase 3: Chickverse Pass NFT</h2>
+        <ul>
+          <li>Exclusive limited mint</li>
+          <li>Boosts, raffles & early access</li>
+          <li>Community benefits</li>
+        </ul>
+      </div>
+
+      <div class="phase">
+        <h2>🚀 Phase 4: Partner Campaigns</h2>
+        <ul>
+          <li>Invite other projects</li>
+          <li>Run their quests</li>
+          <li>Grow Chickverse ecosystem</li>
+        </ul>
+      </div>
+
+      <div class="phase">
+        <h2>🌍 Phase 5: Chickverse World</h2>
+        <ul>
+          <li>Mini-games, badges, achievements</li>
+          <li>On-chain profiles</li>
+          <li>Launch of $CHICK token (TBD)</li>
+        </ul>
+      </div>
+
     </div>
   </div>
 
   <footer>
-    &copy; 2025 Chickverse. Powered by the community.
+    © 2025 Chickverse. Let’s build for the birds 🐥
   </footer>
 </body>
 </html>
