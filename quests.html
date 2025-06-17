@@ -3,91 +3,110 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Chickverse Quests</title>
+  <title>Chickverse | Quests</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Space+Grotesk:wght@500&display=swap" rel="stylesheet">
   <style>
     body {
-      font-family: 'Segoe UI', sans-serif;
-      background: #1a1a2e;
-      color: #ffffff;
+      font-family: 'Space Grotesk', sans-serif;
+      background: linear-gradient(145deg, #0f0c29, #302b63, #24243e);
+      color: white;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
       text-align: center;
-      padding: 40px;
+      color: #ffda79;
+      font-family: 'Orbitron', sans-serif;
     }
     .wallet-btn {
-      background: #ffcf3f;
-      color: #1a1a2e;
+      display: block;
+      margin: 0 auto 20px;
+      padding: 12px 25px;
+      background: linear-gradient(to right, #ffda79, #fff17c);
       border: none;
-      padding: 15px 30px;
-      font-size: 18px;
-      border-radius: 12px;
+      border-radius: 10px;
+      font-weight: bold;
+      font-size: 16px;
       cursor: pointer;
-      margin-bottom: 30px;
+      color: #000;
     }
     .wallet-btn.connected {
       background: #4caf50;
       color: #fff;
     }
-    .xp-counter {
-      font-size: 28px;
-      font-weight: bold;
-      color: #00ffd5;
-      margin: 20px 0;
-    }
     .quest {
-      background: #282c3f;
-      margin: 20px auto;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid #444;
       padding: 20px;
-      border-radius: 12px;
-      width: 80%;
-      max-width: 500px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      margin: 20px auto;
+      max-width: 600px;
+      border-radius: 15px;
+      box-shadow: 0 0 15px rgba(255, 215, 0, 0.2);
     }
-    .quest a, .quest button {
-      background: #00ffd5;
-      color: #000;
-      border: none;
+    button, .action-btn {
+      margin-top: 10px;
       padding: 10px 20px;
-      border-radius: 8px;
-      text-decoration: none;
       font-weight: bold;
+      border-radius: 8px;
+      background: linear-gradient(to right, #ffda79, #fff17c);
+      border: none;
+      cursor: pointer;
+      color: black;
+      text-decoration: none;
     }
-    .quest button[disabled] {
+    .action-btn[disabled] {
       background: #777;
       color: #ccc;
+      cursor: not-allowed;
+    }
+    .xp-counter {
+      text-align: center;
+      font-size: 24px;
+      margin-top: 20px;
+      color: #ffd700;
     }
   </style>
 </head>
 <body>
-  <h1>Chickverse Quests</h1>
-  <button class="wallet-btn">Connect Wallet</button>
-  <div class="xp-counter">XP: 0</div>
+  <h1>Complete Social Quests</h1>
+  <button class="wallet-btn" id="wallet-btn">Connect Wallet</button>
 
   <div class="quest" data-key="discord">
-    <span>Join Discord</span>
+    <h3>Join our Discord</h3>
+    <p>Connect with the community on Discord</p>
     <a href="https://discord.gg/AYwQKmHwea" target="_blank" class="action-btn">Join Now</a>
   </div>
-  <div class="quest" data-key="pixelX">
-    <span>Follow Pixel Chickens on X</span>
-    <a href="https://x.com/Pixels_Chicken" target="_blank" class="action-btn">Follow Now</a>
-  </div>
   <div class="quest" data-key="chickverseX">
-    <span>Follow Chickverse on X</span>
+    <h3>Follow Chickverse on X</h3>
+    <p>Follow our official X (Twitter) account</p>
     <a href="https://x.com/chickverse" target="_blank" class="action-btn">Follow Now</a>
   </div>
+  <div class="quest" data-key="pixelX">
+    <h3>Follow Pixel Chickens on X</h3>
+    <p>Support the creators by following Pixel Chickens</p>
+    <a href="https://x.com/Pixels_Chicken" target="_blank" class="action-btn">Follow Now</a>
+  </div>
+
   <div class="quest" data-key="pixelNFT">
-    <span>Hold a Pixel Chicken NFT</span>
+    <h3>Hold a Pixel Chicken NFT</h3>
+    <p>Verify ownership of a Pixel Chicken NFT</p>
     <button class="action-btn verify-btn">Verify</button>
   </div>
   <div class="quest" data-key="chickverseNFT">
-    <span>Hold a Chickverse NFT</span>
+    <h3>Hold a Chickverse NFT</h3>
+    <p>Verify ownership of a Chickverse NFT</p>
     <button class="action-btn verify-btn">Verify</button>
+  </div>
+
+  <div class="xp-counter">
+    Total XP: <span id="xp">0</span>
   </div>
 
   <script>
     let currentWallet = null;
-    const walletBtn = document.querySelector('.wallet-btn');
-    const xpCounter = document.querySelector('.xp-counter');
+
+    const walletBtn = document.getElementById('wallet-btn');
+    const xpDisplay = document.getElementById('xp');
 
     walletBtn.addEventListener('click', async () => {
       if (typeof window.ethereum !== 'undefined') {
@@ -109,20 +128,20 @@
           alert('Connection failed: ' + err.message);
         }
       } else {
-        alert('MetaMask not installed');
+        alert('MetaMask not detected');
       }
     });
 
     async function loadUserData() {
       const res = await fetch(`https://b84bfe9b-c8b6-44a1-9229-03f308958619-00-2ba1ztsppsdom.sisko.replit.dev/user-data?wallet=${currentWallet}`);
       const data = await res.json();
-      xpCounter.textContent = 'XP: ' + data.xp;
+      xpDisplay.textContent = data.xp;
       document.querySelectorAll('.quest').forEach(div => {
         const questKey = div.getAttribute('data-key');
         const btn = div.querySelector('.action-btn');
         if (data.questsCompleted[questKey]) {
           btn.textContent = 'Completed';
-          btn.disabled = true;
+          btn.setAttribute('disabled', true);
         } else {
           btn.textContent = btn.textContent.includes('Now') ? btn.textContent : 'Verify';
           btn.classList.add('verify-btn');
@@ -130,8 +149,8 @@
       });
     }
 
-    document.querySelectorAll('.quest .action-btn').forEach(btn => {
-      btn.addEventListener('click', function (e) {
+    document.querySelectorAll('.action-btn').forEach(btn => {
+      btn.addEventListener('click', function () {
         const questDiv = btn.closest('.quest');
         const questKey = questDiv.getAttribute('data-key');
 
@@ -143,9 +162,9 @@
           })
             .then(res => res.json())
             .then(data => {
-              xpCounter.textContent = 'XP: ' + data.xp;
+              xpDisplay.textContent = data.xp;
               btn.textContent = 'Completed';
-              btn.disabled = true;
+              btn.setAttribute('disabled', true);
             });
         } else {
           setTimeout(() => {
@@ -154,6 +173,23 @@
           }, 3000);
         }
       });
+    });
+
+    window.addEventListener('load', async () => {
+      if (window.ethereum) {
+        try {
+          const accounts = await window.ethereum.request({ method: 'eth_accounts' });
+          if (accounts.length > 0) {
+            currentWallet = accounts[0];
+            const shortWallet = currentWallet.slice(0, 6) + '...' + currentWallet.slice(-4);
+            walletBtn.textContent = 'Connected: ' + shortWallet;
+            walletBtn.classList.add('connected');
+            loadUserData();
+          }
+        } catch (err) {
+          console.log('Wallet auto-connection failed:', err);
+        }
+      }
     });
   </script>
 </body>
