@@ -117,7 +117,7 @@
           walletBtn.textContent = 'Connected: ' + shortWallet;
           walletBtn.classList.add('connected');
 
-          await fetch('https://b84bfe9b-c8b6-44a1-9229-03f308958619-00-2ba1ztsppsdom.sisko.replit.dev/connect', {
+          await fetch('/connect', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ wallet: currentWallet })
@@ -133,7 +133,7 @@
     });
 
     async function loadUserData() {
-      const res = await fetch(`https://b84bfe9b-c8b6-44a1-9229-03f308958619-00-2ba1ztsppsdom.sisko.replit.dev/user-data?wallet=${currentWallet}`);
+      const res = await fetch(`/user-data?wallet=${currentWallet}`);
       const data = await res.json();
       xpDisplay.textContent = data.xp;
       document.querySelectorAll('.quest').forEach(div => {
@@ -154,17 +154,23 @@
         const questDiv = btn.closest('.quest');
         const questKey = questDiv.getAttribute('data-key');
 
-        if (btn.classList.contains('verify-btn') || questKey.includes('NFT')) {
-          fetch('https://b84bfe9b-c8b6-44a1-9229-03f308958619-00-2ba1ztsppsdom.sisko.replit.dev/complete-quest', {
+        if (btn.classList.contains('verify-btn')) {
+          const endpoint = questKey.includes('NFT') ? '/verify-nft' : '/complete-quest';
+
+          fetch(endpoint, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ wallet: currentWallet, questKey })
           })
             .then(res => res.json())
             .then(data => {
-              xpDisplay.textContent = data.xp;
-              btn.textContent = 'Completed';
-              btn.setAttribute('disabled', true);
+              if (data.success) {
+                xpDisplay.textContent = data.xp;
+                btn.textContent = 'Completed';
+                btn.setAttribute('disabled', true);
+              } else {
+                alert(data.message || 'Verification failed');
+              }
             });
         } else {
           setTimeout(() => {
@@ -194,3 +200,4 @@
   </script>
 </body>
 </html>
+
