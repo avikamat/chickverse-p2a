@@ -1,140 +1,126 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Chickverse | Roadmap</title>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Space+Grotesk:wght@500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Space+Grotesk:wght@500&display=swap" rel="stylesheet">
   <style>
     body {
       margin: 0;
       padding: 0;
       font-family: 'Space Grotesk', sans-serif;
-      background: linear-gradient(145deg, #0f0c29, #302b63, #24243e);
-      color: white;
+      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+      color: #ffffff;
+      overflow-x: hidden;
     }
 
     header {
       text-align: center;
-      padding: 60px 20px;
-      background: rgba(255, 215, 0, 0.05);
-      border-bottom: 2px solid #333;
+      padding: 100px 20px 60px;
+      background: radial-gradient(circle, rgba(255,215,0,0.1), transparent);
     }
 
     header h1 {
       font-family: 'Orbitron', sans-serif;
-      font-size: 3.2rem;
+      font-size: 4rem;
       color: #ffd700;
-      margin-bottom: 10px;
+      text-shadow: 0 0 20px #ffd70044;
+      margin-bottom: 20px;
     }
 
-    .section {
-      max-width: 1000px;
-      margin: 50px auto;
-      padding: 0 20px;
-    }
-
-    .roadmap-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 40px;
-    }
-
-    .phase {
-      background: rgba(255, 255, 255, 0.05);
-      border-left: 4px solid #ffd700;
-      padding: 20px 30px;
-      border-radius: 12px;
-      box-shadow: 0 0 20px rgba(255, 215, 0, 0.15);
-    }
-
-    .phase h2 {
-      color: #ffda79;
-      font-size: 1.5rem;
-      margin-bottom: 10px;
-    }
-
-    .phase ul {
-      padding-left: 20px;
-      list-style-type: "✅ ";
+    header p {
+      font-size: 1.2rem;
       color: #ccc;
     }
 
-    .phase ul li {
+    .roadmap-container {
+      max-width: 1200px;
+      margin: auto;
+      padding: 50px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 60px;
+    }
+
+    .roadmap-card {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 215, 0, 0.2);
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 0 25px rgba(255, 215, 0, 0.15);
+      transition: transform 0.3s ease;
+    }
+
+    .roadmap-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 0 35px rgba(255, 215, 0, 0.35);
+    }
+
+    .roadmap-card h2 {
+      color: #fff17c;
+      font-size: 2rem;
       margin-bottom: 10px;
+    }
+
+    .roadmap-card p {
+      color: #ddd;
+      font-size: 1rem;
+    }
+
+    .neon-line {
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(to right, #ffd700, transparent);
+      box-shadow: 0 0 20px #ffd70055;
+      margin: 40px 0;
     }
 
     footer {
       padding: 40px 20px;
       text-align: center;
-      color: #888;
-      font-size: 0.9rem;
       background: #0e0b1c;
-      margin-top: 80px;
+      font-size: 0.9rem;
+      color: #999;
     }
   </style>
 </head>
 <body>
   <header>
-    <h1>🛣 Chickverse Roadmap</h1>
-    <p>Here’s what we’ve done and where we’re going 🚀</p>
+    <h1>🚀 Chickverse Roadmap</h1>
+    <p>Our journey to the skies is just beginning. Here's how we evolve together.</p>
   </header>
 
-  <div class="section">
-    <div class="roadmap-grid">
+  <div class="roadmap-container">
+    <div class="roadmap-card">
+      <h2>✅ Phase 1: Genesis</h2>
+      <p>Launch of the Pixel Chicken NFT collection. Building the Chickverse community through Discord, X (Twitter), and initial giveaways.</p>
+    </div>
 
-      <div class="phase">
-        <h2>✅ Phase 1: Quest Engine (Complete)</h2>
-        <ul>
-          <li>Wallet login & tracking</li>
-          <li>Social + NFT quests</li>
-          <li>Referral XP</li>
-          <li>Leaderboard</li>
-          <li>Rewards page</li>
-        </ul>
-      </div>
+    <div class="neon-line"></div>
 
-      <div class="phase">
-        <h2>🔜 Phase 2: XP Boosts (Coming Soon)</h2>
-        <ul>
-          <li>Pay to earn extra XP</li>
-          <li>Rise in leaderboard faster</li>
-          <li>Razorpay & crypto accepted</li>
-        </ul>
-      </div>
+    <div class="roadmap-card">
+      <h2>⚒️ Phase 2: Arena Quests</h2>
+      <p>Release of the questing platform where users can complete tasks, verify NFTs, and earn XP. Leaderboards go live.</p>
+    </div>
 
-      <div class="phase">
-        <h2>📦 Phase 3: Chickverse Pass NFT</h2>
-        <ul>
-          <li>Exclusive limited mint</li>
-          <li>Boosts, raffles & early access</li>
-          <li>Community benefits</li>
-        </ul>
-      </div>
+    <div class="neon-line"></div>
 
-      <div class="phase">
-        <h2>🚀 Phase 4: Partner Campaigns</h2>
-        <ul>
-          <li>Invite other projects</li>
-          <li>Run their quests</li>
-          <li>Grow Chickverse ecosystem</li>
-        </ul>
-      </div>
+    <div class="roadmap-card">
+      <h2>🎁 Phase 3: Rewards & Drops</h2>
+      <p>Launch of reward claiming system. Top players earn exclusive NFTs and XP bonuses. Special airdrops for active participants.</p>
+    </div>
 
-      <div class="phase">
-        <h2>🌍 Phase 5: Chickverse World</h2>
-        <ul>
-          <li>Mini-games, badges, achievements</li>
-          <li>On-chain profiles</li>
-          <li>Launch of $CHICK token (TBD)</li>
-        </ul>
-      </div>
+    <div class="neon-line"></div>
 
+    <div class="roadmap-card">
+      <h2>🌐 Phase 4: The Metaverse Awaits</h2>
+      <p>Expansion of the Chickverse into new platforms. Partnerships, staking, and more community-driven content coming soon.</p>
     </div>
   </div>
 
   <footer>
-    © 2025 Chickverse. Let’s build for the birds 🐥
+    © 2025 Chickverse. Adventure of the Pixel Chickens 🐥
   </footer>
 </body>
 </html>
