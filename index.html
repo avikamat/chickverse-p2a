@@ -251,7 +251,8 @@ connectBtn.addEventListener('click', async () => {
 
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ wallet: walletAddress })
+       body: JSON.stringify({ address: walletAddress })
+
       });
 
       const result = await response.json();
