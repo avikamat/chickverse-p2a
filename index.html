@@ -274,35 +274,50 @@
     connectBtn.style.boxShadow = 'none';
   }
 
-  // Check on page load
+  function resetButton() {
+    connectBtn.textContent = 'Connect Wallet';
+    connectBtn.disabled = false;
+    connectBtn.style.background = '';
+    connectBtn.style.color = '#fff';
+    connectBtn.style.cursor = 'pointer';
+    connectBtn.style.boxShadow = '';
+  }
+
+  async function checkIfWalletStillConnected() {
+    if (window.ethereum && localStorage.getItem('connectedWallet')) {
+      const accounts = await window.ethereum.request({ method: 'eth_accounts' });
+      if (accounts.length === 0) {
+        localStorage.removeItem('connectedWallet');
+        resetButton();
+      }
+    }
+  }
+
+  // On page load
   window.addEventListener('DOMContentLoaded', () => {
     const storedAddress = localStorage.getItem('connectedWallet');
     if (storedAddress) {
       updateButton(storedAddress);
     }
+    checkIfWalletStillConnected();
   });
 
   connectBtn.addEventListener('click', connectWallet);
-// Listen for account changes (including disconnect)
-if (window.ethereum) {
-  window.ethereum.on('accountsChanged', (accounts) => {
-    if (accounts.length === 0) {
-      // Wallet disconnected
-      localStorage.removeItem('connectedWallet');
-      connectBtn.textContent = 'Connect Wallet';
-      connectBtn.disabled = false;
-      connectBtn.style.background = '';
-      connectBtn.style.color = '#fff';
-      connectBtn.style.cursor = 'pointer';
-      connectBtn.style.boxShadow = '';
-    } else {
-      // Wallet switched — update display and storage
-      localStorage.setItem('connectedWallet', accounts[0]);
-      updateButton(accounts[0]);
-    }
-  });
-}
 
+  // Listen for account changes (including disconnect)
+  if (window.ethereum) {
+    window.ethereum.on('accountsChanged', (accounts) => {
+      if (accounts.length === 0) {
+        // Wallet disconnected
+        localStorage.removeItem('connectedWallet');
+        resetButton();
+      } else {
+        // Wallet switched
+        localStorage.setItem('connectedWallet', accounts[0]);
+        updateButton(accounts[0]);
+      }
+    });
+  }
 </script>
 
 
