@@ -49,6 +49,14 @@
       font-weight: bold;
       color: #ffd700;
     }
+    .you {
+      background-color: #1a1f2e !important;
+    }
+    .you-tag {
+      color: #6cffb5;
+      font-size: 0.95rem;
+      margin-left: 4px;
+    }
   </style>
 </head>
 <body>
@@ -62,25 +70,53 @@
           <th>Points</th>
         </tr>
       </thead>
-      <tbody>
-        <tr>
-          <td class="rank">#1</td>
-          <td>0xAbC...123</td>
-          <td>450</td>
-        </tr>
-        <tr>
-          <td class="rank">#2</td>
-          <td>0xDeF...456</td>
-          <td>410</td>
-        </tr>
-        <tr>
-          <td class="rank">#3</td>
-          <td>0xGhI...789</td>
-          <td>390</td>
-        </tr>
-        <!-- Add more rows dynamically later -->
+      <tbody id="leaderboard-body">
+        <!-- Dynamic rows go here -->
       </tbody>
     </table>
   </div>
+
+  <script>
+    const backendURL = "https://b84bfe9b-c8b6-44a1-9229-03f308958619-00-2ba1ztsppsdom.sisko.replit.dev";
+
+    // Get wallet address from URL parameter (?wallet=0x...)
+    const urlParams = new URLSearchParams(window.location.search);
+    const currentWallet = (urlParams.get("wallet") || "").toLowerCase();
+
+    async function fetchLeaderboard() {
+      try {
+        const res = await fetch(`${backendURL}/all-users`);
+        const data = await res.json();
+
+        const sorted = Object.entries(data)
+          .map(([wallet, user]) => ({ wallet, xp: user.xp }))
+          .sort((a, b) => b.xp - a.xp);
+
+        const tbody = document.getElementById("leaderboard-body");
+        tbody.innerHTML = "";
+
+        sorted.forEach((entry, index) => {
+          const isYou = entry.wallet.toLowerCase() === currentWallet;
+          const row = document.createElement("tr");
+          if (isYou) row.classList.add("you");
+
+          row.innerHTML = `
+            <td class="rank">#${index + 1}</td>
+            <td>${entry.wallet.slice(0, 6)}...${entry.wallet.slice(-4)} ${isYou ? '<span class="you-tag">(You)</span>' : ''}</td>
+            <td>${entry.xp}</td>
+          `;
+
+          tbody.appendChild(row);
+        });
+      } catch (error) {
+        console.error("Error loading leaderboard:", error);
+      }
+    }
+
+    window.addEventListener("load", fetchLeaderboard);
+
+    
+     setInterval(fetchLeaderboard, 20000);
+  </script>
 </body>
 </html>
