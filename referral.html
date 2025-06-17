@@ -133,47 +133,48 @@
   </div>
 
   <script>
-    async function init() {
-      if (typeof window.ethereum === 'undefined') {
-        document.getElementById('referralLink').innerText = "MetaMask not detected.";
-        return;
-      }
-
-      const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-      const wallet = accounts[0];
-      const shortWallet = wallet.slice(0, 6) + "..." + wallet.slice(-4);
-      const link = `https://chickverse.xyz/?ref=${wallet}`;
-      document.getElementById('referralLink').innerText = link;
-
-      // Check for referral param (like ?ref=0x...)
-      const urlParams = new URLSearchParams(window.location.search);
-      const ref = urlParams.get('ref');
-      if (ref && ref !== wallet) {
-        fetch('https://your-backend-url.com/api/refer', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ referrer: ref, referee: wallet })
-        });
-      }
-
-      // Get referral stats
-      fetch(`https://your-backend-url.com/api/referral-stats?wallet=${wallet}`)
-        .then(res => res.json())
-        .then(data => {
-          document.getElementById('referred').innerText = data.totalReferred || 0;
-          document.getElementById('refPoints').innerText = data.referralXP || 0;
-          document.getElementById('rankBoost').innerText = `+${data.rankBoost || 0}%`;
-        });
+  async function init() {
+    if (typeof window.ethereum === 'undefined') {
+      document.getElementById('referralLink').innerText = "MetaMask not detected.";
+      return;
     }
 
-    function copyLink() {
-      const text = document.getElementById('referralLink').innerText;
-      navigator.clipboard.writeText(text).then(() => {
-        alert('Referral link copied to clipboard!');
+    const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+    const wallet = accounts[0];
+    const shortWallet = wallet.slice(0, 6) + "..." + wallet.slice(-4);
+    const link = `https://chickverse.xyz/?ref=${wallet}`;
+    document.getElementById('referralLink').innerText = link;
+
+    // Check for referral param (like ?ref=0x...)
+    const urlParams = new URLSearchParams(window.location.search);
+    const ref = urlParams.get('ref');
+    if (ref && ref !== wallet) {
+      fetch('https://b84bfe9b-c8b6-44a1-9229-03f308958619-00-2ba1ztsppsdom.sisko.replit.dev/api/refer', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ referrer: ref, referee: wallet })
       });
     }
 
-    window.addEventListener('load', init);
-  </script>
+    // Get referral stats
+    fetch(`https://b84bfe9b-c8b6-44a1-9229-03f308958619-00-2ba1ztsppsdom.sisko.replit.dev/api/referral-stats?wallet=${wallet}`)
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById('referred').innerText = data.totalReferred || 0;
+        document.getElementById('refPoints').innerText = data.referralXP || 0;
+        document.getElementById('rankBoost').innerText = `+${data.rankBoost || 0}%`;
+      });
+  }
+
+  function copyLink() {
+    const text = document.getElementById('referralLink').innerText;
+    navigator.clipboard.writeText(text).then(() => {
+      alert('Referral link copied to clipboard!');
+    });
+  }
+
+  window.addEventListener('load', init);
+</script>
+
 </body>
 </html>
