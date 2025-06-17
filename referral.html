@@ -6,6 +6,7 @@
   <title>Chickverse | Referral</title>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Space+Grotesk:wght@500&display=swap" rel="stylesheet" />
   <style>
+    /* Your existing CSS — unchanged */
     * {
       margin: 0; padding: 0; box-sizing: border-box;
     }
@@ -104,7 +105,7 @@
 
   <div class="card">
     <div class="label">Your Referral Link</div>
-    <div class="ref-link" id="referralLink">https://chickverse.xyz/?ref=yourwallet123</div>
+    <div class="ref-link" id="referralLink">Connecting wallet...</div>
     <button class="copy-btn" onclick="copyLink()">Copy Link</button>
   </div>
 
@@ -112,15 +113,15 @@
     <div class="label">Your Stats</div>
     <div class="stats">
       <div class="stat-box">
-        <h3>7</h3>
+        <h3 id="referred">–</h3>
         <p>Total Referred</p>
       </div>
       <div class="stat-box">
-        <h3>350</h3>
+        <h3 id="refPoints">–</h3>
         <p>Referral Points</p>
       </div>
       <div class="stat-box">
-        <h3>+12%</h3>
+        <h3 id="rankBoost">–</h3>
         <p>Rank Boost</p>
       </div>
     </div>
@@ -132,12 +133,47 @@
   </div>
 
   <script>
+    async function init() {
+      if (typeof window.ethereum === 'undefined') {
+        document.getElementById('referralLink').innerText = "MetaMask not detected.";
+        return;
+      }
+
+      const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+      const wallet = accounts[0];
+      const shortWallet = wallet.slice(0, 6) + "..." + wallet.slice(-4);
+      const link = `https://chickverse.xyz/?ref=${wallet}`;
+      document.getElementById('referralLink').innerText = link;
+
+      // Check for referral param (like ?ref=0x...)
+      const urlParams = new URLSearchParams(window.location.search);
+      const ref = urlParams.get('ref');
+      if (ref && ref !== wallet) {
+        fetch('https://your-backend-url.com/api/refer', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ referrer: ref, referee: wallet })
+        });
+      }
+
+      // Get referral stats
+      fetch(`https://your-backend-url.com/api/referral-stats?wallet=${wallet}`)
+        .then(res => res.json())
+        .then(data => {
+          document.getElementById('referred').innerText = data.totalReferred || 0;
+          document.getElementById('refPoints').innerText = data.referralXP || 0;
+          document.getElementById('rankBoost').innerText = `+${data.rankBoost || 0}%`;
+        });
+    }
+
     function copyLink() {
       const text = document.getElementById('referralLink').innerText;
       navigator.clipboard.writeText(text).then(() => {
         alert('Referral link copied to clipboard!');
       });
     }
+
+    window.addEventListener('load', init);
   </script>
 </body>
 </html>
