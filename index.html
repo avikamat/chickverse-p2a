@@ -247,7 +247,7 @@ connectBtn.addEventListener('click', async () => {
       const walletAddress = accounts[0];
 
       // Send to backend
-      const response = await fetch('https://b84bfe9b-c8b6-44a1-9229-03f308958619-00-2ba1ztsppsdom.sisko.replit.dev/connect', {
+      const response = await fetch('https://chickversefinal-backend-1.onrender.com', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ wallet: walletAddress })
