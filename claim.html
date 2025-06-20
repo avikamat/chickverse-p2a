@@ -10,7 +10,8 @@
       margin: 0;
       padding: 0;
       font-family: 'Space Grotesk', sans-serif;
-      background: linear-gradient(145deg, #0f0c29, #302b63, #24243e);
+      background: url('bg.gif') center center / cover no-repeat fixed;
+      background-color: #0f0c29;
       color: white;
     }
     header {
@@ -24,6 +25,7 @@
       font-size: 3.5rem;
       color: #ffd700;
       margin-bottom: 10px;
+      text-shadow: 0 0 15px #a76eff, 0 0 30px #9c4dff;
     }
     .section {
       max-width: 1000px;
@@ -33,12 +35,13 @@
     }
     .section h2 {
       font-size: 2.5rem;
-      color: #fff17c;
+      color: #bb86fc;
       margin-bottom: 20px;
+      text-shadow: 0 0 12px #a855f7;
     }
     .section p {
       font-size: 1.1rem;
-      color: #bbb;
+      color: #ddd;
       margin-bottom: 40px;
     }
     .reward-grid {
@@ -47,46 +50,55 @@
       gap: 30px;
     }
     .reward-card {
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid #333;
+      background: rgba(30, 0, 50, 0.5);
+      border: 1px solid #bb86fc;
       border-radius: 20px;
       padding: 30px;
       transition: all 0.3s ease;
-      box-shadow: 0 0 20px rgba(255, 215, 0, 0.2);
+      box-shadow: 0 0 25px rgba(180, 0, 255, 0.3);
+      backdrop-filter: blur(10px);
     }
     .reward-card:hover {
       transform: translateY(-5px);
       box-shadow: 0 0 30px rgba(255, 215, 0, 0.4);
     }
     .reward-card h3 {
-      color: #ffda79;
+      color: #e0b3ff;
+      font-size: 1.8rem;
       margin-bottom: 10px;
+      text-shadow: 0 0 10px #c77dff;
     }
     .reward-card p {
-      color: #ccc;
-      font-size: 0.95rem;
+      color: #f0e6ff;
+      font-size: 1rem;
       margin-bottom: 20px;
     }
     .btn {
-      background: linear-gradient(to right, #ffda79, #fff17c);
-      color: black;
+      background: linear-gradient(to right, #a855f7, #7c3aed);
+      color: white;
       padding: 12px 24px;
       border: none;
       border-radius: 12px;
       font-weight: bold;
       cursor: pointer;
       transition: all 0.3s ease;
+      box-shadow: 0 0 15px #a855f7;
     }
     .btn:hover {
       transform: scale(1.05);
-      box-shadow: 0 0 15px #ffd700;
+      box-shadow: 0 0 20px #bb86fc;
+    }
+    .btn[disabled] {
+      background: #555;
+      color: #bbb;
+      cursor: not-allowed;
     }
     footer {
       padding: 40px 20px;
       text-align: center;
       color: #888;
       font-size: 0.9rem;
-      background: #0e0b1c;
+      background: rgba(15, 12, 41, 0.8);
       margin-top: 80px;
     }
   </style>
@@ -96,18 +108,15 @@
     <h1>🎁 Claim Your Rewards</h1>
     <p>Based on your performance in quests and leaderboard</p>
   </header>
-
   <div class="section">
     <h2>Available Rewards</h2>
     <p>Congrats! Here’s what you can claim based on your progress in the Chickverse Arena.</p>
-
     <div class="reward-grid">
       <div class="reward-card">
         <h3>🏆 Top Leaderboard Reward</h3>
         <p>Only the top 50 players will win a free Chickverse NFT. Keep climbing the leaderboard!</p>
         <button class="btn" onclick="window.location.href='leaderboard.html'">View Leaderboard</button>
       </div>
-
       <div class="reward-card">
         <h3>🔒 More Rewards Coming Soon</h3>
         <p>We're working on more awesome perks and bonuses. Stay tuned!</p>
@@ -115,10 +124,8 @@
       </div>
     </div>
   </div>
-
   <footer>
     © 2025 Chickverse. Built for the birds 🐥
   </footer>
 </body>
 </html>
-
