@@ -6,13 +6,9 @@
   <title>Chickverse | P2A Arena</title>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Space+Grotesk:wght@500&display=swap" rel="stylesheet"/>
   <style>
-    / * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
     body {
-      background: linear-gradient(145deg, #0f0c29, #302b63, #24243e);
+      background: url('bg.gif') center center / cover no-repeat fixed;
+      background-color: #0f0c29;
       color: #fff;
       font-family: 'Space Grotesk', sans-serif;
       display: flex;
@@ -21,126 +17,132 @@
       overflow-x: hidden;
     }
     header {
-      padding: 80px 30px 60px;
+      padding: 60px 30px 30px;
       text-align: center;
-      background: url('https://images.unsplash.com/photo-1602526210532-5299f29d6f2a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1050&q=80') center/cover no-repeat;
+      background: rgba(15, 12, 41, 0.7);
+      backdrop-filter: blur(6px);
+      box-shadow: 0 0 30px rgba(118, 0, 255, 0.5);
+      border-bottom: 2px solid #8e44ff;
       position: sticky;
       top: 0;
       z-index: 10;
-      box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
     }
-    header::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: linear-gradient(to bottom right, rgba(0, 0, 0, 0.8), rgba(40, 40, 80, 0.6));
-      z-index: -1;
+    .chick-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 40px;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+    }
+    .chick-wrapper img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      background: radial-gradient(circle, rgba(168,0,255,0.3), rgba(0,0,0,0.5));
+      box-shadow: 0 0 20px #9c4dff;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      animation: floaty 4s ease-in-out infinite;
+    }
+    .chick-wrapper img:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 30px #c77dff;
+    }
+    @keyframes floaty {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-12px); }
     }
     header h1 {
       font-size: 4rem;
       font-family: 'Orbitron', sans-serif;
-      color: #ffd700;
-      letter-spacing: 4px;
-      text-shadow: 0 0 15px #ffda79, 0 0 25px #ffda79;
-      animation: pulse 3s ease-in-out infinite;
+      color: #bb86fc;
+      letter-spacing: 5px;
+      text-shadow: 0 0 15px #a76eff, 0 0 30px #9c4dff;
     }
     header p {
-      font-size: 1.4rem;
-      margin-top: 20px;
-      color: #fff;
-      text-shadow: 0 0 8px #000;
-    }
-    @keyframes pulse {
-      0%, 100% { text-shadow: 0 0 15px #ffda79, 0 0 25px #ffda79; }
-      50% { text-shadow: 0 0 25px #fff17c, 0 0 35px #ffe45c; }
+      font-size: 1.2rem;
+      margin-top: 15px;
+      color: #f1f1f1;
+      text-shadow: 0 0 5px #000;
     }
     .main-wrapper {
       flex: 1;
       display: flex;
       justify-content: center;
-      padding: 60px 30px 100px;
+      padding: 50px 20px 80px;
       position: relative;
-      z-index: 1;
     }
     .container {
       width: 100%;
       max-width: 1400px;
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-      gap: 40px;
+      gap: 35px;
     }
     .card {
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid #333;
-      border-radius: 25px;
-      padding: 35px;
-      box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
-      transition: all 0.3s ease-in-out;
+      background: rgba(30, 0, 50, 0.5);
+      border: 1px solid #bb86fc;
+      border-radius: 20px;
+      padding: 30px;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 0 20px rgba(180, 0, 255, 0.3);
+      transition: all 0.4s ease;
     }
     .card:hover {
-      transform: translateY(-6px) scale(1.04);
-      box-shadow: 0 0 30px rgba(255, 215, 0, 0.7);
+      transform: translateY(-6px) scale(1.03);
+      box-shadow: 0 0 35px rgba(220, 0, 255, 0.5);
     }
     .card h2 {
-      color: #ffda79;
-      margin-bottom: 14px;
-      font-size: 1.9rem;
+      color: #e0b3ff;
+      margin-bottom: 16px;
+      font-size: 1.8rem;
+      text-shadow: 0 0 10px #c77dff;
     }
     .card p {
-      color: #bbb;
-      font-size: 1rem;
-      line-height: 1.6;
+      color: #f0e6ff;
+      font-size: 1.05rem;
+      line-height: 1.8;
     }
     .btn {
-      background: linear-gradient(to right, #ffda79, #fff17c);
-      color: #000;
-      padding: 14px 28px;
+      background: linear-gradient(to right, #a855f7, #7c3aed);
+      color: #fff;
+      padding: 12px 26px;
       border-radius: 12px;
       font-weight: bold;
       border: none;
       cursor: pointer;
       margin-top: 20px;
       font-size: 1rem;
-      box-shadow: 0 0 12px #ffe95e;
+      box-shadow: 0 0 20px #a855f7;
       transition: all 0.3s ease;
       text-decoration: none;
       display: inline-block;
     }
     .btn:hover {
-      background: linear-gradient(to right, #fff17c, #ffda79);
+      background: linear-gradient(to right, #9333ea, #a855f7);
       transform: scale(1.07);
-      box-shadow: 0 0 20px #fff899;
+      box-shadow: 0 0 25px #c084fc;
     }
     footer {
       text-align: center;
-      padding: 30px 10px;
-      color: #999;
+      padding: 25px 10px;
+      color: #d1b3ff;
       font-size: 0.95rem;
-      background: rgba(255, 255, 255, 0.05);
-      border-top: 1px solid #444;
-    }
-    #particles-js {
-      position: fixed;
-      width: 100%;
-      height: 100%;
-      top: 0;
-      left: 0;
-      z-index: 0;
-    }
-* (same CSS you already had, no changes here for brevity) */
-    /* Just skip editing styles, everything else is same */
-    .btn[disabled] {
-      opacity: 0.6;
-      pointer-events: none;
+      background: rgba(40, 0, 60, 0.5);
+      border-top: 1px solid #a855f7;
     }
   </style>
 </head>
 <body>
-  <div id="particles-js"></div>
-
   <header>
-    <h1>Chickverse</h1>
+    <div class="chick-wrapper">
+      <img src="chick.jpg" alt="Chick 1">
+      <img src="chick2.jpg" alt="Chick 2">
+      <h1>Chickverse</h1>
+      <img src="chick3.jpg" alt="Chick 3">
+      <img src="chick4.jpg" alt="Chick 4">
+    </div>
     <p>Welcome to the ultimate P2A Arena – Hatch, Compete, Earn</p>
   </header>
 
@@ -148,179 +150,119 @@
     <div class="container">
       <div class="card">
         <h2>🔗 Connect Your Wallet</h2>
-        <p>Join the arena by connecting your wallet and verifying your NFT ownership. Get started in seconds.</p>
+        <p>Securely link your wallet to access your personalized P2A experience, verify ownership, and unlock exclusive in-game features.</p>
         <button class="btn" id="connectWalletBtn">Connect Wallet</button>
-        <p id="walletStatus" style="margin-top: 15px; color: #ffda79;"></p>
-      </div>
-
-      <!-- All other cards remain unchanged -->
-      <div class="card">
-        <h2>🔥 Complete Quests</h2>
-        <p>Earn points by doing cool stuff – join Discord, hold NFTs, refer friends, and complete on-chain actions.</p>
-        <a href="quests.html" class="btn">View Quests</a>
+        <p id="walletStatus" style="margin-top: 10px; color: #bb86fc;"></p>
       </div>
 
       <div class="card">
-        <h2>🎁 Rewards & Prizes</h2>
-        <p>You have completed the 5 tasks – here's your bonus points. Top 50 on the leaderboard will receive a free NFT!</p>
+        <h2>🔥 Quests Hub</h2>
+        <p>Embark on exciting missions ranging from social engagement to blockchain interactions. Complete quests to rack up XP and rise in rank!</p>
+        <a href="quests.html" class="btn">Start Quests</a>
+      </div>
+
+      <div class="card">
+        <h2>🎁 Claim Your Rewards</h2>
+        <p>Finished your missions? It's time to reap the benefits! Earn tokens, NFTs, and other surprises based on your quest performance.</p>
         <a href="claim.html" class="btn">Claim Rewards</a>
       </div>
 
       <div class="card">
-        <h2>🏆 Leaderboard</h2>
-        <p>Track your score and rise through the ranks. The top players earn exclusive tokens every week!</p>
-        <a href="leaderboard.html" class="btn">View Leaderboard</a>
+        <h2>🏆 Leaderboard Arena</h2>
+        <p>Track top performers, compare progress, and see where you rank among the Chickverse elite warriors. The battle for glory never ends!</p>
+        <a href="leaderboard.html" class="btn">See Rankings</a>
       </div>
 
       <div class="card">
-        <h2>🚀 Referral Bonuses</h2>
-        <p>Invite your friends. Every successful referral boosts your points. Let your flock grow!</p>
+        <h2>🚀 Referral Program</h2>
+        <p>Grow your flock! Invite friends to join the arena. Earn bonus XP and rewards for every successful referral you bring to Chickverse.</p>
         <a href="referral.html" class="btn">Get Referral Link</a>
       </div>
 
       <div class="card">
-        <h2>📢 Roadmap</h2>
-        <p>Our Complete Roadmap and Future Plans</p>
-        <a href="community.html" class="btn">Visit Roadmap</a>
+        <h2>📢 Vision & Roadmap</h2>
+        <p>Explore what lies ahead. From token launches to game expansions, stay informed and be part of Chickverse's legendary journey.</p>
+        <a href="community.html" class="btn">View Roadmap</a>
       </div>
     </div>
   </div>
 
   <footer>
-    &copy; 2025 Chickverse. Built for the birds. Join the movement.
+    &copy; 2025 Chickverse. Built for the future of fun. 🪐
   </footer>
 
-  <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
   <script>
-    particlesJS("particles-js", {
-      particles: {
-        number: { value: 80, density: { enable: true, value_area: 800 } },
-        color: { value: "#ffd700" },
-        shape: {
-          type: "circle",
-          stroke: { width: 0, color: "#000000" },
-          polygon: { nb_sides: 5 }
-        },
-        opacity: { value: 0.5 },
-        size: { value: 3, random: true },
-        line_linked: {
-          enable: true,
-          distance: 150,
-          color: "#ffd700",
-          opacity: 0.4,
-          width: 1
-        },
-        move: {
-          enable: true,
-          speed: 2,
-          direction: "none",
-          random: false,
-          straight: false,
-          out_mode: "out",
-          bounce: false
+    const connectBtn = document.getElementById('connectWalletBtn');
+
+    async function connectWallet() {
+      if (typeof window.ethereum !== 'undefined') {
+        try {
+          const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+          const walletAddress = accounts[0];
+
+          // Send to backend
+          await fetch('https://chickversefinal-backend-1.onrender.com/connect', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ address: walletAddress })
+          });
+
+          // Save to localStorage
+          localStorage.setItem('connectedWallet', walletAddress);
+          updateButton(walletAddress);
+        } catch (err) {
+          alert('Connection failed: ' + err.message);
         }
-      },
-      interactivity: {
-        detect_on: "canvas",
-        events: {
-          onhover: { enable: true, mode: "repulse" },
-          onclick: { enable: true, mode: "push" },
-          resize: true
-        },
-        modes: {
-          repulse: { distance: 100, duration: 0.4 },
-          push: { particles_nb: 4 }
-        }
-      },
-      retina_detect: true
-    });
-  </script>
-
-    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
- <script>
-  const connectBtn = document.querySelector('.btn');
-
-  async function connectWallet() {
-    if (typeof window.ethereum !== 'undefined') {
-      try {
-        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-        const walletAddress = accounts[0];
-
-        // Send to backend
-        await fetch('https://chickversefinal-backend-1.onrender.com/connect', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ address: walletAddress })
-        });
-
-        // Save to localStorage
-        localStorage.setItem('connectedWallet', walletAddress);
-        updateButton(walletAddress);
-      } catch (err) {
-        alert('Connection failed: ' + err.message);
-      }
-    } else {
-      alert('MetaMask is not installed');
-    }
-  }
-
-  function updateButton(address) {
-    const shortAddress = address.slice(0, 6) + '...' + address.slice(-4);
-    connectBtn.textContent = `✅ Connected: ${shortAddress}`;
-    connectBtn.disabled = true;
-    connectBtn.style.background = 'rgba(255, 255, 255, 0.1)';
-    connectBtn.style.color = '#000';
-    connectBtn.style.cursor = 'default';
-    connectBtn.style.boxShadow = 'none';
-  }
-
-  function resetButton() {
-    connectBtn.textContent = 'Connect Wallet';
-    connectBtn.disabled = false;
-    connectBtn.style.background = '';
-    connectBtn.style.color = '#fff';
-    connectBtn.style.cursor = 'pointer';
-    connectBtn.style.boxShadow = '';
-  }
-
-  async function checkIfWalletStillConnected() {
-    if (window.ethereum && localStorage.getItem('connectedWallet')) {
-      const accounts = await window.ethereum.request({ method: 'eth_accounts' });
-      if (accounts.length === 0) {
-        localStorage.removeItem('connectedWallet');
-        resetButton();
-      }
-    }
-  }
-
-  // On page load
-  window.addEventListener('DOMContentLoaded', () => {
-    const storedAddress = localStorage.getItem('connectedWallet');
-    if (storedAddress) {
-      updateButton(storedAddress);
-    }
-    checkIfWalletStillConnected();
-  });
-
-  connectBtn.addEventListener('click', connectWallet);
-
-  // Listen for account changes (including disconnect)
-  if (window.ethereum) {
-    window.ethereum.on('accountsChanged', (accounts) => {
-      if (accounts.length === 0) {
-        // Wallet disconnected
-        localStorage.removeItem('connectedWallet');
-        resetButton();
       } else {
-        // Wallet switched
-        localStorage.setItem('connectedWallet', accounts[0]);
-        updateButton(accounts[0]);
+        alert('MetaMask is not installed');
       }
+    }
+
+    function updateButton(address) {
+      const shortAddress = address.slice(0, 6) + '...' + address.slice(-4);
+      connectBtn.textContent = `✅ Connected: ${shortAddress}`;
+      connectBtn.disabled = true;
+      connectBtn.style.opacity = '0.6';
+      document.getElementById('walletStatus').textContent = shortAddress;
+    }
+
+    function resetButton() {
+      connectBtn.textContent = 'Connect Wallet';
+      connectBtn.disabled = false;
+      connectBtn.style.opacity = '1';
+      document.getElementById('walletStatus').textContent = '';
+    }
+
+    async function checkIfWalletStillConnected() {
+      if (window.ethereum && localStorage.getItem('connectedWallet')) {
+        const accounts = await window.ethereum.request({ method: 'eth_accounts' });
+        if (accounts.length === 0) {
+          localStorage.removeItem('connectedWallet');
+          resetButton();
+        }
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      const storedAddress = localStorage.getItem('connectedWallet');
+      if (storedAddress) updateButton(storedAddress);
+      checkIfWalletStillConnected();
     });
-  }
-</script>
 
+    connectBtn.addEventListener('click', connectWallet);
 
-
+    if (window.ethereum) {
+      window.ethereum.on('accountsChanged', (accounts) => {
+        if (accounts.length === 0) {
+          localStorage.removeItem('connectedWallet');
+          resetButton();
+        } else {
+          localStorage.setItem('connectedWallet', accounts[0]);
+          updateButton(accounts[0]);
+        }
+      });
+    }
+  </script>
 </body>
 </html>
+
