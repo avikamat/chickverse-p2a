@@ -8,83 +8,103 @@
   <style>
     body {
       font-family: 'Space Grotesk', sans-serif;
-      background: linear-gradient(145deg, #0f0c29, #302b63, #24243e);
+      background: url('bg.gif') center center / cover no-repeat fixed;
+      background-color: #0f0c29;
       color: white;
       margin: 0;
       padding: 20px;
     }
     h1 {
       text-align: center;
-      color: #ffda79;
+      color: #bb86fc;
       font-family: 'Orbitron', sans-serif;
+      font-size: 3rem;
+      text-shadow: 0 0 15px #a76eff, 0 0 30px #9c4dff;
     }
     .wallet-btn {
       display: block;
-      margin: 0 auto 20px;
+      margin: 20px auto;
       padding: 12px 25px;
-      background: linear-gradient(to right, #ffda79, #fff17c);
+      background: linear-gradient(to right, #a855f7, #7c3aed);
       border: none;
       border-radius: 10px;
       font-weight: bold;
       font-size: 16px;
       cursor: pointer;
-      color: #000;
+      color: white;
+      box-shadow: 0 0 15px #c084fc;
     }
     .wallet-btn.connected {
       background: #4caf50;
       color: #fff;
     }
     .quest {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid #444;
-      padding: 20px;
+      background: rgba(30, 0, 50, 0.5);
+      border: 1px solid #bb86fc;
+      padding: 25px;
       margin: 20px auto;
-      max-width: 600px;
-      border-radius: 15px;
-      box-shadow: 0 0 15px rgba(255, 215, 0, 0.2);
+      max-width: 700px;
+      border-radius: 20px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 0 25px rgba(180, 0, 255, 0.3);
+    }
+    .quest h3 {
+      color: #e0b3ff;
+      font-size: 1.6rem;
+      text-shadow: 0 0 10px #c77dff;
+    }
+    .quest p {
+      font-size: 1.05rem;
+      color: #f0e6ff;
     }
     button, .action-btn {
       margin-top: 10px;
-      padding: 10px 20px;
+      padding: 10px 22px;
       font-weight: bold;
-      border-radius: 8px;
-      background: linear-gradient(to right, #ffda79, #fff17c);
+      border-radius: 10px;
+      background: linear-gradient(to right, #9333ea, #a855f7);
       border: none;
       cursor: pointer;
-      color: black;
+      color: white;
+      box-shadow: 0 0 15px #a855f7;
       text-decoration: none;
+      display: inline-block;
+      transition: all 0.3s ease;
+    }
+    .action-btn:hover {
+      transform: scale(1.07);
+      box-shadow: 0 0 25px #c084fc;
     }
     .action-btn[disabled] {
-      background: #777;
-      color: #ccc;
+      background: #555;
+      color: #bbb;
       cursor: not-allowed;
     }
     .xp-counter {
       text-align: center;
-      font-size: 24px;
-      margin-top: 20px;
-      color: #ffd700;
+      font-size: 1.8rem;
+      margin-top: 30px;
+      color: #e0b3ff;
+      text-shadow: 0 0 10px #c77dff;
     }
-     .dashboard-btn {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  padding: 10px 20px;
-  font-weight: bold;
-  border-radius: 8px;
-  background: linear-gradient(to right, #ffda79, #fff17c);
-  color: black;
-  text-decoration: none;
-}
-
+    .dashboard-btn {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      padding: 10px 20px;
+      font-weight: bold;
+      border-radius: 8px;
+      background: linear-gradient(to right, #a855f7, #7c3aed);
+      color: white;
+      text-decoration: none;
+      box-shadow: 0 0 12px #a855f7;
+    }
   </style>
 </head>
 <body>
   <h1>Complete Social Quests</h1>
-<a href="index.html" class="dashboard-btn">Back to Dashboard</a>
-
+  <a href="index.html" class="dashboard-btn">Back to Dashboard</a>
   <button class="wallet-btn" id="wallet-btn">Connect Wallet</button>
-
   <div class="quest" data-key="discord">
     <h3>Join our Discord</h3>
     <p>Connect with the community on Discord</p>
@@ -100,7 +120,6 @@
     <p>Support the creators by following Pixel Chickens</p>
     <a href="https://x.com/Pixels_Chicken" target="_blank" class="action-btn">Follow Now</a>
   </div>
-
   <div class="quest" data-key="pixelNFT">
     <h3>Hold a Pixel Chicken NFT</h3>
     <p>Verify ownership of a Pixel Chicken NFT</p>
@@ -111,18 +130,14 @@
     <p>Verify ownership of a Chickverse NFT</p>
     <button class="action-btn verify-btn">Verify</button>
   </div>
-
   <div class="xp-counter">
     Total XP: <span id="xp">0</span>
   </div>
-
   <script>
     const backend = 'https://chickversefinal-backend-1.onrender.com';
     let currentWallet = null;
-
     const walletBtn = document.getElementById('wallet-btn');
     const xpDisplay = document.getElementById('xp');
-
     walletBtn.addEventListener('click', async () => {
       if (typeof window.ethereum !== 'undefined') {
         try {
@@ -131,13 +146,11 @@
           const shortWallet = currentWallet.slice(0, 6) + '...' + currentWallet.slice(-4);
           walletBtn.textContent = 'Connected: ' + shortWallet;
           walletBtn.classList.add('connected');
-
           await fetch(`${backend}/connect`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ wallet: currentWallet })
           });
-
           loadUserData();
         } catch (err) {
           alert('Connection failed: ' + err.message);
@@ -146,7 +159,6 @@
         alert('MetaMask not detected');
       }
     });
-
     async function loadUserData() {
       const res = await fetch(`${backend}/user-data?wallet=${currentWallet}`);
       const data = await res.json();
@@ -165,17 +177,14 @@
         }
       });
     }
-
     document.querySelectorAll('.action-btn, .verify-btn').forEach(btn => {
       btn.addEventListener('click', function () {
         const questDiv = btn.closest('.quest');
         const questKey = questDiv.getAttribute('data-key');
-
         if (!currentWallet) {
           alert("Please connect wallet first.");
           return;
         }
-
         if (btn.classList.contains('verify-btn')) {
           const endpoint = questKey.includes('NFT') ? '/verify-nft' : '/complete-quest';
           fetch(`${backend}${endpoint}`, {
@@ -212,7 +221,6 @@
         }
       });
     });
-
     window.addEventListener('load', async () => {
       if (window.ethereum) {
         try {
